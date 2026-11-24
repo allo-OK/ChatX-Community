@@ -1,0 +1,74 @@
+/* Reconstructed UI values: WhatsApp.Design XAML declarations and user screenshots. */
+#messageContextMenu,#conversationMenu{min-width:216px;padding:10px!important;border-radius:18px!important;box-shadow:0 8px 30px #0005!important;border:1px solid rgba(127,127,127,.18)!important;max-height:calc(100vh - 24px);overflow-y:auto;transform-origin:top right}
+#messageContextMenu button,#conversationMenu button{display:flex!important;align-items:center;gap:16px;min-height:40px!important;padding:8px 12px!important;border-radius:8px!important;font-size:15px!important;font-weight:400;text-align:left;line-height:1.3;white-space:nowrap;background:transparent!important}
+#messageContextMenu button:hover,#conversationMenu button:hover,#messageContextMenu button:focus-visible,#conversationMenu button:focus-visible{background:rgba(127,127,127,.16)!important;outline:2px solid var(--accent,#2062c5);outline-offset:-2px}
+#messageContextMenu button svg,#conversationMenu button svg{width:18px;height:18px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+#messageContextMenu .menu-separator,#conversationMenu .menu-separator{margin:7px 12px;border-color:rgba(127,127,127,.22)}
+#messages .message-menu-arrow{color:inherit;opacity:.8;box-shadow:none!important}
+#messages .bubble:not(:hover):not(:focus-within)>.message-menu-arrow{opacity:0;pointer-events:none}
+#messages .message-reactions{position:absolute;bottom:-14px;margin:0;left:7px;right:auto;z-index:2;max-width:100%}
+#messages .mine .message-reactions{left:auto;right:7px}
+#messages .bubble:has(.reaction-chip){margin-bottom:14px}
+#messages .reaction-chip{font-size:16px;line-height:22px;height:26px;padding:0 6px;box-shadow:0 1px 2px #0003;background:var(--panel,#202c33);color:var(--text,#edf3fb)}
+.reaction-picker{gap:1px;padding:6px;border-radius:22px;box-shadow:0 6px 22px #0005}
+.reaction-picker button{width:34px;height:34px;font-size:24px;transition:background .12s ease,transform .12s ease}
+.reaction-picker button:hover{transform:scale(1.12)}
+@media (prefers-reduced-motion:no-preference){
+ #messageContextMenu,#conversationMenu{transition:opacity .12s ease,transform .12s ease,display .12s allow-discrete;opacity:1;transform:translateY(0)}
+ #messageContextMenu.hidden,#conversationMenu.hidden{opacity:0;transform:translateY(-4px)}
+ @starting-style{#messageContextMenu:not(.hidden),#conversationMenu:not(.hidden){opacity:0;transform:translateY(-4px)}}
+ .reaction-picker{animation:wa-reaction-in .13s ease-out}
+ @keyframes wa-reaction-in{from{opacity:0;transform:translateY(4px) scale(.96)}to{opacity:1;transform:none}}
+}
+@media (hover:none){#messages .bubble .message-menu-arrow{opacity:.8;pointer-events:auto}}
+#messageContextMenu button.hidden,#conversationMenu button.hidden{display:none!important}
+#conversationList .conversation-row{min-height:72px;padding:10px 14px;border-radius:8px}
+#conversationList .conv-main{min-width:0}
+#conversationList .conv-name-wrap b{font-size:14px;line-height:1.4}
+#conversationList .conv-preview{font-size:13px;line-height:1.4}
+#conversationList .conversation-avatar{width:42px;height:42px;min-width:42px}
+#chatHeader{padding:10px 20px;min-height:64px}
+#chatHeader h2{font-size:17px;line-height:1.4}
+#chatHeader .header-actions button:not(.hidden){width:36px;height:36px;border-radius:50%;padding:8px}
+#messages .bubble{border-radius:10px!important}
+.composer-wrap .composer{border-radius:18px;padding:8px 12px;gap:8px}
+.composer-wrap .reply-composer{border-radius:10px;margin:0 0 6px}
+.composer-wrap .reply-composer>div{min-width:0;flex:1}
+.composer-wrap .reply-composer #cancelReply{flex-shrink:0;width:32px;height:32px;z-index:2}
+
+.reaction-picker{width:274px;max-width:calc(100vw - 16px)}
+#messageContextMenu button,#conversationMenu button{font-weight:400!important}
+#messages .reaction-chip,#messages .reaction-chip.my-reaction{border:1px solid rgba(127,127,127,.22)!important;background:#202c33!important;box-shadow:0 1px 3px #0004!important;outline:none;color:#e9edef!important}
+html[data-theme="light"] #messages .reaction-chip,html[data-theme="light"] #messages .reaction-chip.my-reaction{background:#fff!important;color:#111b21!important;border-color:#ddd!important}
+.reaction-picker button:focus-visible{outline:2px solid #8696a0;outline-offset:-2px}
+#messages .message-receipt{display:inline-flex;vertical-align:middle;color:#8696a0!important;line-height:1}
+#messages .message-receipt.read{color:#53bdeb!important}
+#messages .message-receipt svg{width:20px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.update-changelog-card{position:relative;width:min(620px,92vw);max-height:80vh;overflow:auto;padding:24px;border-radius:18px}.update-changelog-card .modal-close{position:absolute;right:12px;top:12px}.update-changelog-card h2{padding-right:32px}.update-changelog-card #updateChangelogBody,.update-changelog-card p{white-space:pre-wrap;line-height:1.7}.update-changelog-card details{margin-top:16px}.update-banner #updateHighlights{margin:6px 0 0;padding-left:18px;font-size:12px;line-height:1.6}.update-banner{flex-wrap:wrap;gap:10px}.update-banner>div{flex:1;min-width:220px}
+#updateChangelogModal{z-index:3001}
+#updateChangelogModal{z-index:10010}
+#chatImageStage[data-image-loading="1"]::after{content:'Memuat gambar…';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--text,#edf3fb);background:var(--panel,#202c33);padding:10px 16px;border-radius:12px;pointer-events:none}
+#chatImageStage[data-image-loading="error"]::after{content:'Gambar belum dimuat. Tekan Muat ulang.';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--text,#edf3fb);background:var(--panel,#202c33);padding:10px 16px;border-radius:12px;pointer-events:none}
+#chatImageStage[data-image-loading="1"] #chatImageFull,#chatImageStage[data-image-loading="error"] #chatImageFull{opacity:0}
+.chat-image-thumb>span{display:grid;place-items:center;height:100%;font-size:26px;opacity:.5}
+.update-changelog-card .modal-close{border:0;background:transparent;color:inherit;width:32px;height:32px;border-radius:8px;font-size:22px;cursor:pointer}.update-changelog-card .modal-close:hover{background:rgba(127,127,127,.18)}
+
+#messages .message-menu-arrow{width:24px!important;height:24px!important;display:grid!important;place-items:center!important;padding:0!important;border:0!important;border-radius:50%!important;outline:none!important;background:transparent!important;box-shadow:none!important;color:#b9c4cb!important}
+#messages .message-menu-arrow:hover{background:rgba(127,127,127,.14)!important}
+#messages .message-menu-arrow:focus-visible{outline:1px solid #8696a0!important;outline-offset:1px!important}
+#messages .message-menu-arrow svg{display:block;width:16px!important;height:16px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8}
+.update-banner{max-width:560px!important;padding:14px!important}.update-banner #updateHighlights{line-height:1.4}.update-banner button{font-size:12px;padding:7px 10px}.update-changelog-card #updateChangelogHistory details{margin-top:8px}.update-changelog-card #updateChangelogHistory p{font-size:13px}
+
+.conv-unread-dot{display:inline-block!important;width:12px!important;min-width:12px!important;height:12px!important;padding:0!important;border-radius:50%!important}
+
+#dailyWorkModal .order-server-revision{background:var(--soft,#202c33)!important;color:var(--text,#e9edef)!important;border:1px solid var(--line,#35444c)!important;border-radius:7px;max-width:100%;white-space:normal;text-align:left}
+
+.order-weight{padding:5px 12px 7px;font-size:11px;line-height:1.5;color:var(--muted,#95a6ae)}.weight-card{width:min(680px,92vw);max-height:85vh;overflow:auto;padding:20px}.weight-card textarea{width:100%;min-height:200px;resize:vertical;box-sizing:border-box;background:var(--soft,#17242c);color:var(--text,#e9edef);border:1px solid var(--line,#35444c);border-radius:10px;padding:12px;font:12px/1.6 monospace}.weight-card strong{display:block;margin:14px 0;font-size:17px}.weight-card #weightDetails{font-size:12px;max-height:25vh;overflow:auto}.weight-warning{color:#f2bb65}#weightCatalogState{font-size:11px;opacity:.8}#railWeight svg{width:22px;height:22px}#railWeight small{font-size:7px}
+
+.order-weight{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:16px}
+
+#weightAdditions{border-top:1px solid var(--line,#35444c);margin-top:16px;padding-top:16px}#weightAdditions [hidden]{display:none!important}#addShirtsToggle{width:100%;text-align:left}#addShirtsPanel{margin-top:12px}#additionNote{min-height:140px}.weight-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.weight-actions span{font-size:11px;flex:1;min-width:160px}.addition-table-wrap{overflow:auto;max-height:34vh}.addition-table-wrap table{border-collapse:collapse;width:100%;font-size:12px}.addition-table-wrap td,.addition-table-wrap th{padding:8px;border:1px solid var(--line,#35444c);text-align:left}.addition-table-wrap td:first-child{min-width:220px;white-space:pre-wrap}.addition-table-wrap td:not(:first-child){white-space:nowrap}#additionPayment{font-size:12px;white-space:pre-line;line-height:1.7}.addition-confirm{position:fixed;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:min(460px,85vw);padding:24px;border:1px solid var(--line,#35444c);border-radius:14px;background:var(--soft,#17242c);box-shadow:0 0 0 100vmax #0009;z-index:20000}#additionCopyStatus{font-size:12px}#additionWarning:empty,#additionMissing:empty{display:none}
+
+.shipping-card [hidden]{display:none!important}.shipping-card label{display:block;font-size:12px;margin:10px 0}.shipping-card select{width:100%;margin-top:6px}.shipping-sizes{display:flex;flex-wrap:wrap;gap:6px}.shipping-sizes button{font-size:12px;padding:7px}.shipping-item{display:flex;align-items:center;gap:8px;margin:8px 0}.shipping-item span{flex:1;font-size:12px}.shipping-item input{width:70px}.shipping-card #shippingSearch{flex:1;min-width:180px}#shippingStatus,#shippingOrigin{font-size:12px;line-height:1.6}#railShipping svg{width:22px;height:22px}#railShipping small{font-size:7px}.weight-card.additions-open{width:min(900px,94vw)}.weight-card.additions-open #weightNote{min-height:90px;height:100px}.weight-card.additions-open #weightDetails{display:none}
+
+.shipping-item select{width:150px;margin:0}.shipping-item span{min-width:100px}.shipping-item{flex-wrap:wrap}

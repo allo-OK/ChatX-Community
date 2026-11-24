@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id">
+<meta charset="utf-8">
+<title>ChatX CLIENT</title>
+<link rel="stylesheet" href="host.css">
+<link rel="stylesheet" href="client-update.css">
+<main>
+  <h1>ChatX CLIENT</h1>
+  <p>Fixture percobaan untuk WebView2.</p>
+  <p>Pesan uji dari Editor QA.</p>
+</main>
+<dialog id="requiredUpdate" aria-labelledby="requiredUpdateTitle">
+  <p class="eyebrow">CHATX</p>
+  <h2 id="requiredUpdateTitle">Update diperlukan</h2>
+  <p id="requiredUpdateNotes"></p>
+  <details id="requiredUpdateDetails" hidden>
+    <summary>Lihat detail</summary>
+    <p id="requiredUpdateChangelog"></p>
+  </details>
+  <progress id="requiredUpdateProgress" max="100" value="0" hidden></progress>
+  <p id="requiredUpdateStatus" role="status" aria-live="polite"></p>
+  <button id="requiredUpdateDownload" type="button">Unduh update</button>
+  <button id="requiredUpdateOpen" type="button" hidden>Buka installer</button>
+</dialog>
+<script src="socket.io.min.js"></script>
+<script src="client-update.js"></script>
+<script src="chat-test.js"></script>
+</html>

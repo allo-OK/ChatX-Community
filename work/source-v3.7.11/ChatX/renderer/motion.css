@@ -1,0 +1,66 @@
+/* Shared motion system: short feedback, deliberate surfaces, no layout animation. */
+:root{--kc-motion-fast:120ms;--kc-motion-ui:200ms;--kc-motion-surface:260ms;--kc-motion-ease:cubic-bezier(.22,.61,.36,1)}
+:where(button,[role="button"],a,input,textarea,select){transition:background-color var(--kc-motion-fast),border-color var(--kc-motion-fast),color var(--kc-motion-fast),box-shadow var(--kc-motion-ui),opacity var(--kc-motion-fast),scale var(--kc-motion-fast) var(--kc-motion-ease)}
+:where(button,[role="button"]):not(:disabled):active{scale:.96}
+:where(button,[role="button"]):disabled{cursor:default}
+:where(input,textarea,select):focus-visible{outline-offset:3px}
+:where(.conversation-row,.chat-item,.order-card,.stat-card,.largest-row,.gallery-folders button,.file-gallery-results>*,.new-chat-list>*,.chat-attachment-thumb,.chat-image-thumb){transition:background-color var(--kc-motion-ui),border-color var(--kc-motion-ui),box-shadow var(--kc-motion-ui),opacity var(--kc-motion-ui),scale var(--kc-motion-fast)}
+:where(.chat-attachment-thumb,.chat-image-thumb).active{scale:1.04}
+:where(.conversation-row,.chat-item,.order-card):hover{transition-duration:var(--kc-motion-fast)}
+/* Discrete display transitions preserve existing hidden/open and pointer behavior. */
+:where(.modal,.setup,.conversation-menu,.attach-menu,.host-quick-menu,.daily-smart-menu,.emoji-popover,.tool-dock,.file-preview,.reply-composer,.daily-side,.chat-image-workspace,.status-workspace-viewer){transition:opacity var(--kc-motion-ui) var(--kc-motion-ease),display var(--kc-motion-ui) allow-discrete;opacity:1}
+:where(.modal,.setup,.conversation-menu,.attach-menu,.host-quick-menu,.daily-smart-menu,.emoji-popover,.tool-dock,.file-preview,.reply-composer,.daily-side,.chat-image-workspace,.status-workspace-viewer).hidden{opacity:0}
+@starting-style{
+ :where(.modal,.setup,.conversation-menu,.attach-menu,.host-quick-menu,.daily-smart-menu,.emoji-popover,.tool-dock,.file-preview,.reply-composer,.daily-side,.chat-image-workspace,.status-workspace-viewer):not(.hidden){opacity:0}
+ .modal:not(.hidden)>.modal-card{opacity:0;translate:0 10px;scale:.985}
+}
+.modal>.modal-card{transition:opacity var(--kc-motion-surface),translate var(--kc-motion-surface) var(--kc-motion-ease),scale var(--kc-motion-surface) var(--kc-motion-ease)}
+.modal.hidden>.modal-card{opacity:0;translate:0 6px;scale:.99}
+:where(.new-chat-tabs,.gallery-view-buttons,.conversation-filters,.daily-toolbar) button{transition:background-color var(--kc-motion-ui),color var(--kc-motion-ui),border-color var(--kc-motion-ui),box-shadow var(--kc-motion-ui),scale var(--kc-motion-fast)}
+:where(progress,.progress-bar,.progress-fill,[role="progressbar"]){transition:width var(--kc-motion-surface) linear,background-color var(--kc-motion-ui)}
+.chat-attachment-stage img{animation:kcImageAppear 140ms ease-out}
+@keyframes kcImageAppear{from{opacity:0}to{opacity:1}}
+@keyframes kcNewContent{from{opacity:0;translate:0 5px}to{opacity:1;translate:0 0}}
+/* Accessibility applies to both legacy animations and the shared motion system. */
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0ms!important;scroll-behavior:auto!important}
+ button:active,[role="button"]:active,.chat-attachment-thumb.active,.chat-image-thumb.active{scale:1}
+}
+
+/* Layout polish: keep controls reachable and long content within its own panel. */
+:where(.modal,.setup,.conversation-menu,.attach-menu,.host-quick-menu,.daily-smart-menu,.emoji-popover,.tool-dock,.file-preview,.reply-composer,.daily-side,.chat-image-workspace,.status-workspace-viewer).hidden{pointer-events:none}
+:where(.modal-card,.setup-card){box-sizing:border-box;max-width:calc(100vw - 32px);overscroll-behavior:contain;scrollbar-gutter:stable}
+:where(.modal-head,.chat-image-head,.chat-attachment-head){gap:12px}
+:where(.modal-head,.chat-image-head,.chat-attachment-head)>div{min-width:0}
+:where(.modal-head,.chat-image-head) b,:where(.modal-head,.chat-image-head) span{overflow-wrap:anywhere}
+:where(.modal-head>button,.chat-image-actions,.chat-image-nav){flex-shrink:0}
+:where(.modal-card input,.modal-card select,.modal-card textarea){box-sizing:border-box;max-width:100%}
+:where(.storage-actions,.clipboard-actions,.gallery-selection-actions,.gallery-toolbar,.new-group-footer){flex-wrap:wrap;gap:8px}
+:where(.conv-main,.conv-name-wrap,.chat-meta,.upload-progress-main,.gallery-file,.order-head){min-width:0}
+:where(.bubble,.reply-quote,.file-name,.order-number){overflow-wrap:anywhere}
+:where(.conversation-menu,.attach-menu,.host-quick-menu,.daily-smart-menu){max-width:calc(100vw - 24px);overscroll-behavior:contain}
+:where(button,a,[role="button"],input,textarea,select):focus-visible{outline:2px solid var(--kc-accent,#439cff)!important;outline-offset:2px}
+.chat-attachment-stage{height:clamp(120px,30vh,280px)}
+.file-preview{box-sizing:border-box;max-height:55vh;overflow-y:auto;overscroll-behavior:contain}
+.chat-attachment-head{position:sticky;top:0;z-index:1;background:var(--panel,#111b21);padding:3px 0}
+.chat-attachment-strip{min-height:74px}
+@media(max-height:650px){
+ .modal{padding:12px}
+ .modal-card{max-height:calc(100dvh - 24px);padding:14px}
+ .chat-attachment-stage{height:clamp(90px,22vh,150px)}
+ .file-preview{max-height:48vh}
+ .modal-head{padding-bottom:10px;margin-bottom:10px}
+}
+@media(max-width:900px){
+ .modal-card{max-width:calc(100vw - 24px)}
+ .storage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .chat-image-actions{gap:5px}
+ .chat-image-actions button,.chat-image-actions a{padding:8px}
+ .gallery-toolbar{align-items:center}
+}
+
+/* Light enter/exit movement on floating surfaces; no layout reflow. */
+:where(.conversation-menu,.attach-menu,.host-quick-menu,.emoji-popover,.tool-dock,.daily-side){translate:0 0;transition:opacity var(--kc-motion-ui) var(--kc-motion-ease),translate var(--kc-motion-surface) var(--kc-motion-ease),display var(--kc-motion-ui) allow-discrete}
+:where(.conversation-menu,.attach-menu,.host-quick-menu,.emoji-popover,.tool-dock,.daily-side).hidden{translate:0 6px;pointer-events:none}
+@starting-style{:where(.conversation-menu,.attach-menu,.host-quick-menu,.emoji-popover,.tool-dock,.daily-side):not(.hidden){opacity:0;translate:0 6px}}
+@media(prefers-reduced-motion:reduce){:where(.conversation-menu,.attach-menu,.host-quick-menu,.emoji-popover,.tool-dock,.daily-side){translate:none;transition:none}}

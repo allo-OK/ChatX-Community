@@ -1,0 +1,6 @@
+{
+  "identifier": "client-update-events",
+  "description": "Receive update progress and native network recovery events.",
+  "windows": ["main", "host", "game"],
+  "permissions": ["core:event:allow-listen", "core:event:allow-unlisten"]
+}

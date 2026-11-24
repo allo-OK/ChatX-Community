@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatX</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="wallpaper-inline.css">
+
+</head>
+<body>
+
+<div id="setup" class="setup hidden">
+  <div class="setup-card">
+    <div class="brandmark">KC</div>
+    <h1>ChatX</h1><p>Chat & transfer file lokal kantor</p>
+    <label>Nama kamu</label><input id="setupName" placeholder="Contoh: Rian / Editor 01">
+    <label>Job Desk</label><select id="setupTeamRole" class="setup-role-select"><option value="EDITOR">Editor</option><option value="ADMIN">Admin · CS</option><option value="QC">QC</option><option value="FLEX">Flex</option></select>
+    <div class="role-grid">
+      <button id="serverRole"><b>PC SERVER / HOST</b><span>Panel admin & server utama</span></button>
+      <button id="clientRole"><b>PC EDITOR</b><span>Otomatis cari server di LAN</span></button>
+    </div>
+    <small>Client tidak perlu mengetik IP. Data chat tetap terpisah dari folder instalasi.</small>
+  </div>
+</div>
+
+
+<div id="confirmModal" class="modal hidden"><div class="modal-card confirm-card">
+  <div class="modal-head"><div><b id="confirmTitle">Konfirmasi</b><span id="confirmText"></span></div></div>
+  <div class="confirm-actions"><button id="confirmCancel" class="secondary">Batal</button><button id="confirmOk" class="primary">Kirim</button></div>
+</div></div>
+
+
+<div id="searchModal" class="modal hidden"><div class="modal-card search-card">
+  <div class="modal-head"><div><b>Pencarian Chat</b><span>Cari nama user, isi pesan, mention, atau nama file</span></div><button id="closeSearch">×</button></div>
+  <div class="search-box-large"><span>⌕</span><input id="searchQuery" placeholder="Ketik kata yang dicari..."></div><div class="advanced-search-row"><select id="searchType"><option value="all">Semua</option><option value="text">Chat teks</option><option value="image">Gambar</option><option value="file">Semua file</option><option value="psd">PSD</option><option value="mention">Mention</option></select><input id="searchSender" placeholder="Pengirim"><select id="searchTag"><option value="">Semua tag</option><option value="print-test">Tes Cetak</option><option value="design-revision">Revisi Desain</option><option value="design-request">Minta Desain</option></select><label>Dari <input id="searchFrom" type="date"></label><label>Sampai <input id="searchTo" type="date"></label></div>
+  <div id="searchStatus" class="search-status">Ketik minimal 1 karakter.</div>
+  <div id="searchResults" class="search-results"></div>
+</div></div>
+
+<div id="clipboardModal" class="modal hidden"><div class="modal-card clipboard-card"><div class="modal-head"><div><b>📋 Clipboard Tools</b><span>Ambil gambar yang sedang di-copy dari browser / Photoshop</span></div><button id="closeClipboard">×</button></div><div id="clipboardStatus" class="storage-note">Klik Ambil Clipboard untuk membaca gambar.</div><div class="clipboard-preview-wrap"><img id="clipboardPreview" alt="Clipboard preview"></div><div class="clipboard-actions"><button id="readClipboard" class="primary">Ambil Clipboard</button><button data-clip-tool="removebg" class="secondary" disabled>Remove BG</button><button data-clip-tool="upscale" class="secondary" disabled>Upscale</button><button data-clip-tool="vector" class="secondary" disabled>Vectorize</button><button data-clip-tool="head" class="secondary" disabled>Crop Kepala</button><button id="copyClipboardResult" class="secondary" disabled>Copy PNG Hasil</button></div></div></div>
+
+<div id="storageModal" class="modal hidden"><div class="modal-card storage-card">
+  <div class="modal-head"><div><b>Storage Management</b><span>File chat di storage lokal HOST</span></div><button id="closeStorage">×</button></div>
+  <div id="storageSummary" class="storage-grid"></div>
+  <div class="storage-note">Safe Update aktif: chat, file, profil, permission, dan index dedup disimpan di folder data terpisah dari instalasi aplikasi.</div>
+  <div id="storageLocationSection" class="storage-section host-storage-location hidden"><div class="storage-section-head"><b>Lokasi Shared Storage HOST</b><span id="storageLocationBadge">Memuat...</span></div><div class="storage-location-box"><div><small>LOKASI AKTIF</small><b id="storageActivePath">-</b><span id="storageDriveInfo">-</span></div><div class="storage-location-actions"><button id="chooseStorageLocation" class="secondary">Pilih Folder Baru</button><button id="migrateStorage" class="primary" disabled>Pindahkan Storage</button></div></div><label class="storage-cleanup-option"><input id="cleanupOldStorage" type="checkbox"><span>Setelah verifikasi sukses, hapus file lama dari lokasi sebelumnya</span></label><div id="storageMigrationStatus" class="storage-note">Contoh tujuan: D:\ChatXStorage. File chat akan masuk ke subfolder uploads. Database/chat tetap aman di AppData.</div></div>
+  <div class="storage-section"><div class="storage-section-head"><b>File Storage</b><div class="storage-file-tools"><input id="storageFileSearch" placeholder="Cari nama file..."><button id="selectAllStorage" class="secondary">Pilih Semua</button><button id="deleteSelectedStorage" class="danger" disabled>Hapus Terpilih</button><button id="refreshStorage">Refresh</button></div></div><div id="storageSelectedInfo" class="storage-note">0 file dipilih</div><div id="largestFiles" class="largest-list storage-file-list"></div></div>
+  <div class="storage-actions"><button id="openDataFolder" class="secondary">Buka Folder Data Server</button><button id="cleanupStorage" class="danger">Bersihkan File Tidak Terpakai</button></div>
+</div></div>
+
+<div id="profileModal" class="modal hidden"><div class="modal-card profile-card">
+  <div class="modal-head"><div><b>Profil Saya</b><span id="profileNameLabel">Editor</span></div><button id="closeProfile">×</button></div>
+  <button type="button" id="mainFullChangelog" class="secondary">Full changelog</button><div class="profile-setting-block"><label for="profileDisplayName">Nama profil</label><input id="profileDisplayName" maxlength="40" autocomplete="nickname" placeholder="Nama kamu"><button id="saveProfileName" class="primary" type="button">Simpan Nama</button><small>Nama ini tampil di chat. Nama editor untuk Server data diatur terpisah di Opsi Kerjaan.</small></div>
+  <div id="profilePreview" class="profile-preview"><span>E</span></div>
+  <p>Foto profil masing-masing editor. JPG, PNG, WEBP, GIF · maks 10 MB.</p>
+  <input id="avatarInput" type="file" accept="image/*" hidden>
+  <button id="chooseAvatar" class="primary wide">Pilih Foto Profil</button>
+  <div class="profile-setting-block"><label><span>Job Desk</span><input id="teamRoleSelect" list="jobNames" maxlength="40" placeholder="Contoh: Editor, QC, Admin CS"><datalist id="jobNames"><option value="EDITOR"><option value="ADMIN"><option value="QC"><option value="FLEX"></datalist></label><small>Keterangan pekerjaan bebas diisi. Akses admin diberikan terpisah oleh HOST.</small></div>
+  <label class="activity-share-setting"><input id="shareActivity" type="checkbox"><span><b>Bagikan Activity</b><small>Seperti Discord: membagikan aplikasi aktif / media yang sedang diputar ke komputer lain. Tidak merekam keyboard, layar, atau riwayat. Jika dimatikan, HOST/Admin atau orang tertentu yang ditetapkan HOST masih dapat melihatnya.</small></span></label>
+  <div id="myActivityPreview" class="my-activity-preview">Activity belum dibaca.</div>
+  <div class="profile-setting-block worktag-pref-block"><b>Terima Tag Pekerjaan</b><small>Pilih jenis tag yang muncul untuk kamu. Minta Desain aktif untuk semua secara default.</small><label><input id="workTagPrintTest" type="checkbox"> 🧪 Tes Cetak</label><label><input id="workTagDesignRevision" type="checkbox"> ✏️ Revisi Desain</label><label><input id="workTagDesignRequest" type="checkbox"> 🎨 Minta Desain <em>Default semua</em></label></div>
+  <footer id="profileCredits" class="profile-credits">
+    <strong>Credit &amp; Contributor</strong>
+    <p>Allo · Codex · Claude · Jrangbri</p>
+  </footer>
+</div></div>
+
+<div id="activityModal" class="modal hidden"><div class="modal-card activity-card status-hub-card status-workspace-card">
+  <div class="modal-head status-workspace-head"><div><b>◉ Status & Live Activity</b><span>Lihat status seperti membuka chat</span></div><button id="closeActivity">×</button></div>
+  <div class="status-workspace">
+    <aside class="status-workspace-sidebar">
+      <div class="status-create-bar">
+        <button id="addTextStatus" class="status-me-btn"><span id="statusMeAvatar" class="avatar">+</span><span><b>Status saya</b><small>Tambah tulisan / media</small></span></button>
+        <button id="addMediaStatus" class="secondary status-media-add" title="Tambah gambar, video, atau musik">＋</button>
+        <input id="statusMediaInput" type="file" accept="image/*,video/*,audio/*" hidden>
+      </div>
+      <div id="statusComposer" class="status-composer hidden"><textarea id="statusTextInput" maxlength="1500" placeholder="Tulis status..." rows="3"></textarea><div><button id="cancelStatus" class="secondary">Batal</button><button id="publishStatus" class="primary">Bagikan Status</button></div></div>
+      <div class="status-section-head"><b>Status terbaru</b><span>24 jam</span></div>
+      <div id="statusList" class="status-list status-contact-list"></div>
+      <div class="status-section-head auto-activity-head"><b>Live Activity</b><span>Realtime</span></div>
+      <div id="activityList" class="activity-list status-activity-list"></div>
+    </aside>
+    <section id="statusWorkspacePane" class="status-workspace-pane">
+      <div id="statusWorkspaceEmpty" class="status-workspace-empty"></div>
+      <div id="statusWorkspaceViewer" class="status-workspace-viewer hidden">
+        <div class="status-inline-head"><div class="status-inline-person"><span id="statusViewerAvatar" class="avatar"></span><div><b id="statusViewerName">Status</b><span id="statusViewerTime">24 jam</span></div></div><button id="closeStatusViewer" class="status-inline-close" title="Tutup status">×</button></div>
+        <div id="statusViewerProgress" class="status-viewer-progress"></div>
+        <div class="status-viewer-stage status-inline-stage"><button id="statusViewerPrev" class="status-nav prev" aria-label="Status sebelumnya">‹</button><div id="statusViewerBody" class="status-viewer-body"></div><button id="statusViewerNext" class="status-nav next" aria-label="Status berikutnya">›</button></div>
+        <div id="statusViewerText" class="status-viewer-text"></div>
+        <div id="statusReplyBar" class="status-reply-bar hidden"><input id="statusReplyInput" maxlength="2000" placeholder="Balas status..."><button id="statusReplySend" class="primary" type="button" title="Kirim balasan status">➤</button></div>
+        <button id="deleteStatusNow" class="danger hidden">Hapus status ini</button>
+      </div>
+      <div id="activityWorkspaceViewer" class="status-workspace-viewer activity-workspace-viewer hidden">
+        <div class="status-inline-head"><div class="status-inline-person"><span id="activityViewerAvatar" class="avatar"></span><div><b id="activityViewerName">Live Activity</b><span id="activityViewerPc"></span></div></div><button id="closeActivityViewer" class="status-inline-close" title="Tutup activity">×</button></div>
+        <div class="activity-workspace-body"><div id="activityViewerIcon" class="activity-workspace-icon">💬</div><b id="activityViewerTitle">Online di ChatX</b><span id="activityViewerApp"></span><small id="activityViewerUpdated"></small></div>
+      </div>
+    </section>
+  </div>
+</div></div>
+
+<div id="fileGalleryModal" class="modal hidden"><div class="modal-card file-gallery-card">
+  <div class="modal-head"><div><b>🗂 Search File Gallery</b><span>Cari file desain di semua PC ChatX yang terhubung</span></div><button id="closeFileGallery">×</button></div>
+  <div class="gallery-toolbar"><button id="galleryChooseFolders" class="primary">＋ Tambah Beberapa Folder</button><button id="galleryRescan" class="secondary">↻ Scan Ulang</button><div id="galleryFolders" class="gallery-folders"></div></div>
+  <div class="gallery-search-row"><div class="search wa-search gallery-search"><svg class="search-icon"><use href="icons.svg#i-search"></use></svg><input id="gallerySearch" placeholder="Cari file di semua editor / PC..."></div><select id="gallerySearchScope" title="Area pencarian"><option value="file">Nama file saja</option><option value="file-folder">Nama file + folder</option></select><select id="galleryKind"><option value="all">Semua format</option><option value="image">Gambar</option><option value="photoshop">PSD / PSB</option><option value="illustrator">AI / EPS</option><option value="coreldraw">CDR</option><option value="pdf">PDF</option><option value="other">Lainnya</option></select><select id="gallerySort"><option value="az">A–Z</option><option value="za">Z–A</option><option value="newest">Terbaru</option><option value="largest">Terbesar</option></select><select id="galleryGroup"><option value="none">Tanpa kelompok</option><option value="letter">Kelompok A–Z</option><option value="format">Kelompok Format</option><option value="pc">Kelompok Editor</option></select></div>
+  <div class="gallery-view-row"><div id="galleryStats" class="gallery-stats">Belum scan.</div><div class="gallery-selection-actions"><button id="gallerySelectVisible" class="secondary">Pilih yang tampil</button><button id="galleryClearSelection" class="secondary" disabled>Batalkan Pilihan</button><button id="galleryDownloadSelected" class="primary" disabled>Unduh Terpilih (0)</button></div><div class="gallery-view-buttons"><button data-gallery-view="large" class="active">Large</button><button data-gallery-view="medium">Medium</button><button data-gallery-view="small">Small</button><button data-gallery-view="list">List</button></div></div>
+  <div id="fileGalleryResults" class="file-gallery-results view-large"></div>
+  <button id="galleryLoadMore" class="secondary gallery-load-more hidden">Muat lebih banyak</button>
+</div></div>
+<div id="galleryPreviewModal" class="modal hidden"><div class="modal-card gallery-preview-card"><div class="modal-head"><div><b id="galleryPreviewName">Preview</b><span id="galleryPreviewMeta"></span></div><button id="closeGalleryPreview">×</button></div><div id="galleryPreviewBody" class="gallery-preview-body"></div><div class="storage-actions"><button id="galleryDownloadNow" class="primary">Unduh dari Editor sumber</button></div></div></div>
+
+
+<div id="notificationModal" class="modal hidden"><div class="modal-card settings-card">
+  <div class="modal-head"><div><b>Pengaturan Notifikasi</b><span>Berlaku hanya di PC ini</span></div><button id="closeNotificationSettings">×</button></div>
+  <div class="settings-grid">
+    <label><span>Ukuran notif biasa</span><select id="normalNotifSize"><option value="small">Kecil</option><option value="medium">Sedang</option><option value="large">Besar</option></select></label>
+    <label><span>Suara chat biasa</span><select id="normalNotifSound"><option value="none">Tanpa suara</option><option value="classic">Classic Ping</option><option value="iphone">iPhone Ding</option><option value="bell">Office Bell</option><option value="pop">Soft Pop</option></select></label>
+    <label><span>Gaya notif</span><select id="notifStyle"><option value="card">Popup biasa</option><option value="floating-center">Floating tengah · semi transparan</option></select></label>
+    <label><span>Posisi notif</span><select id="notifPosition"><option value="top-right">Kanan atas</option><option value="top-left">Kiri atas</option><option value="bottom-right">Kanan bawah</option><option value="bottom-left">Kiri bawah</option><option value="center">Tengah</option></select></label>
+  </div>
+  <div class="storage-note">Kalau pesan berisi gambar, gambarnya ikut muncul di popup. <b>Kekuatan notif saat ditag diatur oleh HOST per pengirim</b>: Standar, Lumayan, Sedang, atau Full Layar. Posisi popup BLEDAR maupun notif biasa mengikuti pengaturan PC ini.</div>
+  <button id="saveNotificationSettings" class="primary wide">Simpan Pengaturan Notifikasi</button>
+</div></div>
+
+<div id="serverPickerModal" class="modal hidden"><div class="modal-card server-picker-card"><div class="modal-head"><div><b>Server ChatX di LAN</b><span id="serverPickerStatus">Pilih PC server atau gunakan pencarian otomatis</span></div><button id="closeServerPicker" aria-label="Tutup">×</button></div><div id="serverPickerCurrent" class="storage-note">Koneksi aktif: memeriksa…</div><div class="server-picker-actions"><button id="refreshServerList" class="primary">↻ Cari server aktif</button><button id="autoServerSelection" class="secondary">Gunakan otomatis</button></div><div id="serverPickerList" class="server-picker-list"><div class="empty-state">Tekan Cari server aktif untuk memindai LAN.</div></div><div class="storage-note">Semua CLIENT hanya tersambung ke <b>HOST utama</b>. Jika HOST belum aktif, aplikasi terus mencari ulang; CLIENT tidak akan membuat server sendiri.</div></div></div>
+
+<dialog id="adminModal" class="modal hidden" aria-labelledby="moderationTitle"><div class="modal-card admin-card">
+  <div class="modal-head"><div><b id="moderationTitle">Host Moderation & Role</b><span>Role Developer / Admin / Editor / Custom + kontrol prioritas tag</span></div><button id="closeAdmin" autofocus>×</button></div>
+  <div id="moderationStatus" class="storage-note hidden" role="status"></div>
+  <div class="storage-actions"><button id="loadModeration" type="button" class="secondary">Muat pengaturan & anggota</button></div>
+  <div class="storage-note"><b>Developer</b> terkunci khusus HOST dan selalu punya akses penuh. User lain bisa diberi role <b>Admin</b>, <b>Editor</b>, atau <b>Custom</b> dengan nama sendiri. Admin/Editor hanya preset awal—izin tag, level BLEDAR, dan kemampuan tag menembus mute tetap bisa diedit lagi per orang. Opsi “paksa popup di atas Windows” memakai popup internal ChatX selama aplikasi masih berjalan.</div>
+  <div class="storage-section"><div class="storage-section-head"><b>Perlindungan spam tag</b><span>Aturan berlaku untuk CLIENT</span></div><div class="settings-grid"><label><span>Maksimum tag pekerjaan / 10 detik</span><input id="spamTagsBurst" type="number" min="1" max="10"></label><label><span>Maksimum semua tag / menit</span><input id="spamTagsMinute" type="number" min="2" max="30"></label><label><span>Jeda setelah pelanggaran (detik)</span><input id="spamBlockSeconds" type="number" min="5" max="300"></label></div><button id="saveTagSpamPolicy" class="secondary">Simpan batas spam tag</button></div>
+
+  <div id="adminRoleManager" class="profile-setting-block"><select id="managedRole"></select><input id="managedRoleName" maxlength="40"><select id="managedRoleLevel"></select><select id="managedRoleMode"></select><input id="managedRoleMute" type="checkbox"><input id="managedRoleWindows" type="checkbox"><button id="saveManagedRole">Simpan role</button></div><div id="adminUsers" class="admin-users"></div>
+
+  <div id="adminAuditSection" class="storage-section audit-section"><div class="storage-section-head"><b>Audit aktivitas mention</b><button id="refreshAdmin">Refresh</button></div><div id="auditList" class="audit-list"></div></div>
+</div></dialog>
+<div id="clientUpdateModal" class="modal hidden"><div class="modal-card admin-card">
+  <div class="modal-head"><div><b>Client Update</b></div><button id="closeClientUpdate" aria-label="Tutup Client Update">×</button></div>
+  <div id="clientUpdateSection" class="storage-section update-section"><div class="storage-section-head"><b>Update CLIENT via LAN</b><span id="publishedUpdateStatus">Belum ada update dipublish</span></div>
+    <div class="settings-grid"><label id="updateClientChannelField" class="hidden"><span>Jalur update CLIENT</span><select id="updateClientChannel"><option value="electron">Electron (termasuk migrasi ke Rust)</option><option value="rust">Rust</option></select></label><label><span>Versi aplikasi CLIENT</span><input id="updateVersion" placeholder="Contoh: 1.1.20"></label><label><span>Perubahan utama (opsional)</span><input id="updateNotes" placeholder="Otomatis sesuai versi; boleh diganti"></label><label><span>Changelog lengkap (opsional)</span><textarea id="updateFullChangelog" placeholder="Otomatis sesuai versi; satu perubahan per baris"></textarea></label></div>
+    <label><input id="updateRequired" type="checkbox" checked> Update wajib · CLIENT versi lama diblokir sampai diperbarui</label>
+    <input id="clientUpdateInstaller" type="file" accept=".exe" hidden>
+    <div class="storage-actions"><button id="chooseClientUpdate" class="secondary">Pilih Installer CLIENT</button><button id="publishClientUpdate" class="primary">Publish ke Semua CLIENT</button></div>
+    <div id="clientUpdateFileName" class="storage-note">Pilih file ChatX-CLIENT-SETUP-...exe hasil build. Portable EXE tidak bisa dipakai untuk auto-update.</div><div class="rollback-row"><select id="rollbackVersion"><option value="">Riwayat update sebelumnya...</option></select><button id="refreshRollback" class="secondary">Refresh Riwayat</button><button id="rollbackClientUpdate" class="secondary">Rollback Publish</button><span id="preUpdateBackupStatus">Backup sebelum update: otomatis</span></div>
+  </div>
+</div></div>
+
+
+
+
+
+
+<div id="systemModal" class="modal hidden"><div class="modal-card system-card">
+  <div class="modal-head"><div><b>🖥 System Dashboard</b><span>Health Check · Resource · Job Center · Recovery · Backup HOST</span></div><button id="closeSystem">×</button></div>
+  <div class="system-toolbar"><button id="refreshSystem" class="secondary">Refresh</button><button id="runHealthCheck" class="primary">Cek Semua Sistem</button><label class="performance-profile"><span>Profil PC</span><select id="performanceProfile"><option value="low">Low Spec</option><option value="balanced" selected>Balanced</option><option value="high">High Performance</option></select></label></div>
+  <div id="systemStats" class="system-stat-grid"></div>
+  <div class="system-section"><div class="storage-section-head"><b>Health Check</b><span id="healthSummary">Belum dicek</span></div><div id="healthList" class="health-list"></div></div>
+  <div class="system-section"><div class="storage-section-head"><b>PC / CLIENT</b><span id="clientSummary">-</span></div><div id="systemClients" class="system-clients"></div></div>
+  <div class="system-section"><div class="storage-section-head"><b>Job Center</b><div><button id="clearJobs" class="secondary">Bersihkan Selesai</button></div></div><div id="jobList" class="job-list"></div></div>
+  <div class="system-section"><div class="storage-section-head"><b>Recovery & Safety</b><span id="recoveryStatus">Siap</span></div><div class="recovery-actions"><button id="forceReconnect" class="primary">Reconnect Sekarang</button><button id="reloadUiSafe" class="secondary">Reload UI Aman</button><button id="verifyLatestBackup" class="secondary">Verifikasi Backup Terakhir</button></div><div class="storage-note">Recovery tidak menghapus chat, upload, profil, atau server-data. CLIENT akan discovery ulang jika IP HOST berubah.</div></div>
+  <div id="backupSection" class="system-section hidden"><div class="storage-section-head"><b>Backup HOST</b><span id="backupStatus">Belum diatur</span></div><div class="backup-row"><button id="chooseBackupDir" class="secondary">Pilih Folder Backup</button><button id="backupNow" class="primary">Backup Sekarang</button><label class="check-inline"><input id="autoBackup" type="checkbox"><span>Backup otomatis harian</span></label><label><span>Simpan</span><select id="backupKeep"><option>3</option><option selected>7</option><option>14</option><option>30</option></select><span>versi</span></label></div><div id="backupPath" class="storage-note">Belum ada folder backup.</div></div>
+</div></div>
+
+<div id="diagnosticsModal" class="modal hidden"><div class="modal-card diagnostics-card">
+  <div class="modal-head"><div><b>Bug Center</b><span>Auto Bug Capture dari HOST + semua CLIENT di LAN</span></div><button id="closeDiagnostics">×</button></div>
+  <div class="diag-summary"><div><b id="diagOpen">0</b><span>Aktif</span></div><div><b id="diagTotal">0</b><span>Total laporan</span></div><div><b id="diagResolved">0</b><span>Selesai</span></div><div><b id="diagLast">—</b><span>Terakhir</span></div></div>
+  <div class="diag-toolbar"><select id="diagFilter"><option value="open">Bug aktif</option><option value="all">Semua</option><option value="resolved">Selesai</option></select><select id="diagVersion" aria-label="Versi laporan"><option value="all">Semua versi</option><option value="v7">v7</option><option value="legacy">Riwayat sebelum v7</option></select><button id="refreshDiagnostics" class="secondary">Refresh</button><button id="openLogFolder" class="secondary">📂 Buka Folder Log</button><button id="exportSupportLog" class="primary">🧾 Export Support Log</button><button id="exportDiagnostics" class="secondary">Export Bug JSON</button><button id="clearResolvedDiagnostics" class="danger">Hapus yang selesai</button></div>
+  <div class="storage-note">Support Log mencatat startup, role HOST/CLIENT, server lokal, koneksi socket, error/stack trace, versi, dan event teknis. <b>Isi chat dan isi file customer tidak ikut dimasukkan.</b></div>
+  <div id="diagnosticsList" class="diagnostics-list"></div>
+</div></div>
+
+<div id="emojiPopover" class="emoji-popover hidden"><div class="emoji-head"><b>Emoji</b><input id="emojiSearch" placeholder="Cari emoji..."></div><div class="emoji-tabs" id="emojiTabs"></div><div class="emoji-grid" id="emojiGrid"></div></div>
+
+<div id="stickerModal" class="modal hidden"><div class="modal-card sticker-card">
+  <div class="modal-head"><div><b>Stiker</b><span>Pilih stiker atau buat sendiri</span></div><button id="closeSticker">×</button></div>
+  <div class="sticker-toolbar"><button id="newSticker" class="primary">＋ Tambah Stiker</button><span>Stiker custom tersimpan di PC ini.</span></div>
+  <div id="stickerLibrary" class="sticker-library"></div>
+</div></div>
+
+<div id="stickerEditorModal" class="modal hidden"><div class="modal-card sticker-editor-card">
+  <div class="modal-head"><div><b>Editor Stiker</b><span>Tambah tulisan atau coret-coret</span></div><button id="closeStickerEditor">×</button></div>
+  <input id="stickerImageInput" type="file" accept="image/*" hidden>
+  <div class="sticker-editor-tools">
+    <button id="chooseStickerImage" class="secondary">Pilih Gambar</button>
+    <label><span>Tulisan</span><input id="stickerTextInput" placeholder="Contoh: SIAP BOS! 😭"></label>
+    <button id="addStickerText" class="secondary">Tambah Tulisan</button>
+    <button id="clearStickerDraw" class="secondary">Hapus Coretan</button>
+  </div>
+  <div class="sticker-canvas-wrap"><canvas id="stickerCanvas" width="512" height="512" tabindex="0" aria-label="Canvas editor stiker. Paste gambar untuk memasukkannya."></canvas></div>
+  <div class="storage-note">Coret langsung di gambar dengan mouse. Pilih Pindah untuk menggeser teks / emoji. Crop dengan menarik area gambar.</div>
+  <div class="storage-actions"><button id="saveSticker" class="secondary">Simpan ke Koleksi</button><button id="sendSticker" class="primary">Kirim Stiker</button></div>
+</div></div>
+
+
+<div id="attachMenu" class="attach-menu hidden"><button id="clipboardToolsAction">📋 <span>Clipboard Tools</span></button><button id="attachFileAction">📎 <span>Kirim file / gambar</span></button><button id="wallpaperAction">🖼️ <span>Wallpaper chat</span></button><button id="printTestTagAction">🧪 <span>Tag Tes Cetak</span></button><button id="revisionTagAction">✏️ <span>Tag Revisi Desain</span></button><button id="designRequestTagAction">🎨 <span>Tag Minta Desain</span></button></div>
+
+<div id="removeBgModal" class="modal hidden"><div class="modal-card remove-bg-card">
+  <div class="modal-head"><div><b>🪄 Remove Background AI</b><span>AI lokal · GPU WebGPU bila tersedia + fallback CPU · hasil PNG transparan</span></div><button id="closeRemoveBg">×</button></div>
+  <input id="removeBgInput" type="file" accept="image/*,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff,.gif,.ico,.heic,.heif,.avif" hidden>
+  <div class="remove-bg-toolbar ai"><button id="chooseRemoveBg" class="secondary">Pilih / Ganti Gambar</button><button id="chooseRemoveBgOutput" class="secondary">Folder Output</button><label><span>Komputasi</span><select id="removeBgCompute"><option value="auto" selected>Auto / Hybrid</option><option value="gpu">GPU Only</option><option value="cpu">CPU</option></select></label><label class="check-inline"><input id="removeBgParallel" type="checkbox"><span>Jalan bareng</span></label><label class="check-inline"><input id="removeBgBatch" type="checkbox"><span>Mode batch</span></label><span class="format-note">PNG, JPG, WEBP, BMP, TIFF, GIF, ICO, HEIC/HEIF, AVIF</span><label><span>Model AI</span><select id="removeBgModel"><option value="large">Detail terbaik</option><option value="medium">Balanced</option><option value="small">Cepat</option></select></label><button id="processRemoveBg" class="primary">Remove Background AI</button></div>
+  <div id="removeBgProgress" class="ai-progress hidden"><div><span id="removeBgProgressText">Menyiapkan AI…</span><b id="removeBgProgressPct">0%</b></div><progress id="removeBgProgressBar" max="100" value="0"></progress></div>
+  <div id="removeBgHint" class="storage-note">AI mengenali subjek, background ramai, dan detail rambut lebih baik daripada metode warna. Model dipaketkan bersama aplikasi sehingga proses berjalan lokal di PC.</div>
+  <div class="remove-bg-preview"><div><small>ASLI</small><canvas id="removeBgSource" width="640" height="480"></canvas></div><div><small>HASIL TRANSPARAN</small><canvas id="removeBgResult" width="640" height="480"></canvas></div></div>
+  <div class="storage-actions"><button id="saveRemoveBg" class="secondary" disabled>Simpan PNG</button><button id="sendRemoveBg" class="primary" disabled>Kirim ke Chat</button><button id="runRemoveBgBatch" class="secondary hidden">Proses Batch</button><span id="removeBgBatchSummary" class="batch-summary"></span></div>
+</div></div>
+<div id="gameInviteModal" class="modal hidden"><div class="modal-card game-invite-card game-lobby-create"><div class="modal-head"><div><b>🎮 Game</b><span>Undang editor tertentu, bukan broadcast ke semua orang</span></div><button id="closeGameInvite">×</button></div><div class="game-create-layout"><section class="game-opponent-panel"><div class="game-section-title"><b>Pilih lawan</b><span id="gameOpponentHint">Catur/Ular Tangga: 1 orang · Ludo: sampai 3 orang</span></div><div id="gameInviteUsers" class="game-invite-users"></div><div id="gameInviteSelection" class="game-invite-selection">Belum ada lawan dipilih.</div></section><section class="game-settings-panel"><div class="game-pref-row"><label>Warna Catur<select id="chessColorPref"><option value="random">🎲 Acak</option><option value="white">♔ Putih</option><option value="black">♚ Hitam</option></select></label><label>Level Bot Catur<select id="chessBotLevel"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></label><label>Warna Ludo<select id="ludoColorPref"><option value="random">🎲 Acak</option><option value="red">Merah</option><option value="yellow">Kuning</option><option value="green">Hijau</option><option value="blue">Biru</option></select></label></div><div class="game-choice"><button data-game="chess"><b>♟ Catur</b><span>Undang tepat 1 editor</span></button><button data-game="ludo"><b>🎲 Ludo</b><span>Undang 1–3 editor</span></button><button data-game="snakes"><b>🐍 Ular Tangga</b><span>Undang 1 editor atau lawan bot</span></button></div><div class="game-create-note">Untuk lawan bot, buat lobby tanpa memilih editor lalu tekan <b>Lawan / Tambah Bot</b>, atau tunggu bot otomatis masuk.</div></section></div></div></div>
+<div id="incomingGameModal" class="modal hidden"><div class="modal-card confirm-card"><div class="modal-head"><div><b id="incomingGameTitle">Invite Game</b><span id="incomingGameText"></span></div></div><div class="confirm-actions"><button id="declineGame" class="secondary">Nanti</button><button id="acceptGame" class="primary">Join Game</button></div></div></div>
+<div id="gameModal" class="modal hidden"><div class="modal-card game-card"><div class="modal-head"><div><b id="gameTitle">Game</b><span id="gameStatus">Menunggu pemain…</span></div><button id="minimizeGame" title="Minimize game">—</button><button id="closeGame" title="Sembunyikan game">×</button></div><div id="gamePlayers" class="game-players"></div><div id="gameArea" class="game-area"></div><div class="game-actions"><button id="gameBot" class="secondary hidden">🤖 Lawan / Tambah Bot</button><button id="gameCancel" class="danger hidden">Batalkan Game</button><button id="gamePrimary" class="primary hidden">Aksi</button><button id="leaveGame" class="secondary">Keluar Game</button></div></div></div>
+<div id="wallpaperModal" class="modal hidden"><div class="modal-card settings-card"><div class="modal-head"><div><b>Wallpaper Chat</b><span>Seperti WhatsApp — berlaku di PC/user ini</span></div><button id="closeWallpaper">×</button></div><div class="wallpaper-grid"><button data-wall="default" class="wall default"><span>Default</span></button><button data-wall="doodle" class="wall doodle"><span>Doodle</span></button><button data-wall="soft" class="wall soft"><span>Soft</span></button><button data-wall="paper" class="wall paper"><span>Paper</span></button><button id="customWallpaper" class="wall custom"><span>＋ Gambar sendiri</span></button></div><input id="wallpaperInput" type="file" accept="image/*" hidden><button id="resetWallpaper" class="secondary wide">Reset Wallpaper</button></div></div>
+
+
+<div id="fontLibraryModal" class="modal hidden"><div class="modal-card asset-library-card"><div class="modal-head"><div><b>𝐅 Galeri Font</b><span>TTF / OTF yang pernah dikirim di chat</span></div><button id="closeFontLibrary">×</button></div><div id="fontLibraryList" class="asset-library-list"></div></div></div>
+<div id="psdLibraryModal" class="modal hidden"><div class="modal-card asset-library-card"><div class="modal-head"><div><b>🖼 Galeri PSD</b><span>File PSD yang pernah dikirim di chat</span></div><button id="closePsdLibrary">×</button></div><div id="psdLibraryList" class="asset-library-list"></div></div></div>
+
+
+
+<div id="vectorModal" class="modal hidden"><div class="modal-card vector-card"><div class="modal-head"><div><b>✒️ Vectorizer</b><span>Bitmap → vector / raster halus · proses lokal/offline di PC ini</span></div><button id="closeVector">×</button></div><div class="vector-toolbar"><button id="chooseVectorImage" class="secondary">Pilih Gambar</button><button id="chooseVectorOutput" class="secondary">Folder Output</button><label><span>Komputasi</span><select id="vectorCompute"><option value="auto" selected>Auto / Hybrid</option><option value="gpu">GPU Only</option><option value="cpu">CPU</option></select></label><label class="check-inline"><input id="vectorParallel" type="checkbox"><span>Jalan bareng</span></label><label class="check-inline"><input id="vectorBatch" type="checkbox"><span>Mode batch</span></label><label><span>Preset</span><select id="vectorPreset"><option value="logo">Logo / Warna Solid</option><option value="color" selected>Vektor Standar Berwarna</option><option value="detail">Detail Warna Halus</option></select></label><label><span>Output</span><select id="vectorOutputFormat"><option value="svg" selected>SVG</option><option value="png">PNG</option><option value="webp">WEBP</option><option value="jpg">JPG</option></select></label><label><span>BG Raster</span><select id="vectorBackgroundMode"><option value="transparent" selected>Transparan</option><option value="white">Putih</option></select></label><button id="runVectorizer" class="primary">Vectorize</button></div><div id="vectorStatus" class="storage-note">Pilih PNG/JPG/WEBP/BMP/TIFF untuk mulai.</div><div id="vectorProgress" class="ai-progress hidden"><div><span id="vectorProgressText">Menyiapkan…</span><b id="vectorProgressPct">0%</b></div><progress id="vectorProgressBar" max="100" value="0"></progress></div><div class="vector-preview"><div><small>BITMAP</small><img id="vectorInputPreview" alt="Bitmap"></div><div><small>HASIL OUTPUT</small><iframe id="vectorResultPreview" title="Preview Hasil"></iframe></div></div><div class="storage-note">Preset default Vektor Standar Berwarna. Mode GPU memakai WebGL2 untuk persiapan warna, lalu contour tracing berjalan di worker terpisah. SVG mempertahankan beberapa layer warna, bukan hitam-putih.</div><div class="storage-actions"><button id="openVectorResult" class="secondary" disabled>Buka SVG</button><button id="sendVectorResult" class="secondary" disabled>Kirim ke Chat</button><button id="openVectorFolder" class="primary" disabled>Buka Folder</button><button id="runVectorBatch" class="secondary hidden">Proses Batch</button><span id="vectorBatchSummary" class="batch-summary"></span></div></div></div>
+
+
+<div id="headCropModal" class="modal hidden"><div class="modal-card head-crop-card"><div class="modal-head"><div><b>👤 Crop Kepala</b><span>Deteksi banyak kepala · proses lokal di PC ini · bisa hapus background</span></div><button id="closeHeadCrop">×</button></div><div class="head-crop-toolbar"><button id="chooseHeadCropImage" class="secondary">Pilih Gambar</button><button id="chooseHeadCropOutput" class="secondary">Folder Output</button><label><span>Komputasi</span><select id="headCropCompute"><option value="auto" selected>Auto / Hybrid</option><option value="gpu">GPU Only</option><option value="cpu">CPU</option></select></label><label class="check-inline"><input id="headCropParallel" type="checkbox"><span>Jalan bareng</span></label><label class="check-inline"><input id="headCropBatch" type="checkbox"><span>Batch foto</span></label><label class="check-inline"><input id="headCropRemoveBg" type="checkbox" checked><span>Hapus BG</span></label><label class="check-inline"><input id="headCropHeadOnly" type="checkbox" checked><span>Kepala saja</span></label><button id="autoHeadCrop" class="secondary">Deteksi Kepala</button><label><span>Zoom</span><input id="headCropZoom" type="range" min="90" max="260" value="150"></label><label><span>Padding</span><input id="headCropPad" type="range" min="110" max="260" value="175"></label><label><span>Posisi X</span><input id="headCropX" type="range" min="0" max="100" value="50"></label><label><span>Posisi Y</span><input id="headCropY" type="range" min="0" max="100" value="30"></label><button id="saveHeadCrop" class="primary" disabled>Simpan Kepala Ini</button><button id="sendHeadCrop" class="secondary" disabled>Kirim ke Chat</button><button id="saveAllHeadCrop" class="secondary" disabled>Simpan Semua Kepala</button></div><div id="headCropStatus" class="storage-note">Pilih foto. Sistem mendeteksi beberapa kepala sekaligus. Mode Kepala saja membuang bahu/badan dan memusatkan rambut + wajah.</div><div class="head-crop-layout"><div class="head-crop-preview"><canvas id="headCropCanvas" width="900" height="650"></canvas><div><small>HASIL CROP</small><canvas id="headCropResult" width="512" height="512"></canvas></div></div><div class="head-face-panel"><div class="section-title">KEPALA TERDETEKSI</div><div id="headFaceList" class="head-face-list"></div></div></div></div></div>
+
+<div id="upscaleModal" class="modal hidden"><div class="modal-card upscale-card"><div class="modal-head"><div><b>🚀 Upscale AI</b><span>Engine Upscayl lokal di PC ini · GPU Vulkan</span></div><button id="closeUpscale">×</button></div><div class="upscale-toolbar"><button id="chooseUpscaleImage" class="secondary">Pilih Gambar</button><button id="chooseUpscaleOutput" class="secondary">Folder Output</button><label><span>Komputasi</span><select id="upscaleCompute"><option value="auto" selected>Auto / GPU</option><option value="gpu">GPU Only</option><option value="cpu">CPU</option></select></label><label class="check-inline"><input id="upscaleParallel" type="checkbox"><span>Jalan bareng</span></label><label class="check-inline"><input id="upscaleBatch" type="checkbox"><span>Mode batch</span></label><label><span>Model</span><select id="upscaleModel"><option value="standard">Standar</option><option value="lite">Lite</option><option value="fidelity">High Fidelity</option><option value="remacri">Remacri</option><option value="ultramix">Ultramix</option><option value="ultrasharp">Ultrasharp</option><option value="digital">Digital Art</option></select></label><label><span>Scale</span><select id="upscaleScale"><option value="2" selected>2×</option><option value="3">3×</option><option value="4">4×</option></select></label><button id="runUpscale" class="primary">Upscale</button></div><div id="upscaleStatus" class="storage-note">Pilih gambar untuk mulai. Upscale AI memakai GPU Vulkan/Upscayl. Mode CPU sengaja tidak dipakai untuk AI upscale.</div><div id="upscaleProgress" class="ai-progress hidden"><div><span id="upscaleProgressText">Menyiapkan…</span><b id="upscaleProgressPct">0%</b></div><progress id="upscaleProgressBar" max="100" value="0"></progress></div><div class="upscale-preview"><div><small>INPUT</small><img id="upscalePreview" alt="Preview"></div><div><small>HASIL</small><img id="upscaleResultPreview" alt="Hasil"></div></div><div class="storage-actions"><button id="openUpscaleResult" class="secondary" disabled>Buka Hasil</button><button id="sendUpscaleResult" class="secondary" disabled>Kirim ke Chat</button><button id="openUpscaleFolder" class="primary" disabled>Buka Folder</button><button id="runUpscaleBatch" class="secondary hidden">Proses Batch</button><span id="upscaleBatchSummary" class="batch-summary"></span></div></div></div>
+<div id="workTagModal" class="modal hidden"><div class="modal-card worktag-card"><div class="modal-head"><div><b id="workTagTitle">Tag Pekerjaan</b><span id="workTagSubtitle">Pilih orang yang mau diberi info</span></div><button id="closeWorkTag">×</button></div><div id="workTagUsers" class="worktag-users"></div><label class="worktag-note"><span>Catatan tambahan (opsional)</span><input id="workTagNote" placeholder="Contoh: order KC-123 / revisi bagian belakang"></label></div></div>
+
+<div id="updateBanner" class="update-banner hidden"><div><b>Update ChatX tersedia</b><span id="updateBannerText">Versi baru siap diinstall dari HOST.</span><ul id="updateHighlights"></ul></div><button id="viewUpdateChangelog" class="secondary">Lihat detail</button><button id="viewFullChangelog" class="secondary">Full changelog</button><button id="installUpdateNow">Update sekarang</button><button id="dismissUpdate">Nanti</button></div>
+
+<div id="updateChangelogModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="updateChangelogTitle"><div class="modal-card update-changelog-card"><button id="closeUpdateChangelog" class="modal-close" aria-label="Tutup changelog">×</button><h2 id="updateChangelogTitle">Changelog</h2><div id="updateChangelogBody"></div><div id="updateChangelogHistory"></div></div></div>
+<div class="app-shell whatsapp-shell">
+  <nav class="wa-rail" aria-label="Navigasi utama">
+    <button id="railChats" class="rail-btn active" title="Chats" aria-label="Chats"><svg><use href="icons.svg#i-chat"></use></svg></button>
+    <button id="railTools" class="rail-btn" title="Creative Tools" aria-label="Creative Tools"><svg><use href="icons.svg#i-tools"></use></svg></button>
+    <button id="railGame" class="rail-btn rail-game" title="Game" aria-label="Game"><svg aria-hidden="true"><use href="icons.svg#i-game"></use></svg></button>
+
+    <button id="railGallery" class="rail-btn rail-gallery" title="Search File Gallery" aria-label="Search File Gallery"><svg><use href="icons.svg#i-folder"></use></svg><small>FILE</small></button>
+    <button id="railStorage" class="rail-btn" title="Storage" aria-label="Storage"><svg><use href="icons.svg#i-storage"></use></svg></button>
+    <button id="railServerPicker" class="rail-btn rail-server-picker hidden" title="Pilih server LAN" aria-label="Pilih server LAN"><svg><use href="icons.svg#i-system"></use></svg><small>SERVER</small></button>
+    <div class="rail-spacer"></div>
+    <button id="railModeration" class="rail-btn hidden rail-moderation" title="Moderation HOST" aria-label="Moderation HOST"><svg aria-hidden="true"><use href="icons.svg#i-shield"></use></svg></button>
+    <button id="railNotify" class="rail-btn" title="Notifikasi" aria-label="Pengaturan notifikasi"><svg><use href="icons.svg#i-bell"></use></svg></button>
+    <button id="railSystem" class="rail-btn hidden" title="System" aria-label="System Dashboard"><svg><use href="icons.svg#i-system"></use></svg></button>
+    <button id="railTheme" class="rail-btn" title="Tampilan" aria-label="Pengaturan tampilan"><svg><use href="icons.svg#i-sun"></use></svg></button>
+    <button id="railActivity" class="rail-btn rail-activity" title="Status & Live Activity" aria-label="Status & Live Activity"><svg aria-hidden="true"><use href="icons.svg#i-activity"></use></svg></button>
+    <button id="railHostMore" class="rail-btn hidden" title="Menu HOST" aria-label="Menu HOST"><svg><use href="icons.svg#i-more"></use></svg></button>
+    <button id="railProfile" class="avatar avatar-button rail-profile" title="Profil" aria-label="Profil"><span id="railProfileInitial">E</span></button>
+  </nav>
+  <aside class="conversation-sidebar">
+    <div class="conversation-head"><div><b>Chats</b><span id="runtimeRoleBadge" class="runtime-role-badge">Memeriksa aplikasi…</span></div><div class="conversation-head-actions"><button id="newConversation" title="Chat baru / Grup baru" aria-label="Chat baru atau grup baru"><svg><use href="icons.svg#i-plus"></use></svg></button></div></div>
+    <div class="search wa-search"><svg class="search-icon"><use href="icons.svg#i-search"></use></svg><input id="sidebarSearchInput" placeholder="Cari atau mulai chat baru"></div>
+    <div class="conversation-filters"><button class="conv-filter active" data-filter="all">Semua</button><button class="conv-filter" data-filter="unread">Belum Dibaca</button><button class="conv-filter" data-filter="favorite">Favorit</button><button class="conv-filter" data-filter="group">Grup</button></div>
+    <button id="archivedShortcut" class="archived-shortcut hidden"><span>Diarsipkan</span><b id="archivedCount">0</b></button>
+    <div id="conversationList" class="conversation-list"></div>
+  </aside>
+  <button id="discordProfileBar" class="discord-profile-bar" type="button" title="Buka profil" aria-label="Buka profil dan activity saya">
+    <span class="user-panel-avatar-wrap"><span id="userPanelAvatar" class="avatar user-panel-avatar">E</span><i id="userPanelOnlineDot" class="user-panel-online-dot"></i></span>
+    <span class="user-panel-copy">
+      <span class="user-panel-top"><b id="userPanelName">Editor</b><em id="userPanelHost" class="user-panel-host hidden">HOST</em></span>
+      <span id="userPanelPresence" class="user-panel-presence">● Online</span>
+      <span id="userPanelActivity" class="user-panel-activity">💬 Online di ChatX</span>
+    </span>
+    <span class="user-panel-chevron" aria-hidden="true">›</span>
+  </button>
+  <div id="conversationResizer" class="conversation-resizer" title="Geser untuk mengatur lebar daftar chat"></div>
+  <main class="chat-panel">
+    <div id="chatEmptyState" class="chat-empty-state hidden">
+      <div class="empty-logo">KC</div>
+      <h2>ChatX</h2>
+      <span id="chatxWelcomeGreeting" class="chatx-welcome-greeting">Halo!</span>
+      <p>Pilih percakapan atau buka salah satu pintasan.</p>
+      <div class="chat-empty-shortcuts" role="group" aria-label="Pintasan">
+        <button type="button" data-chat-shortcut="newConversation"><svg aria-hidden="true"><use href="icons.svg#i-chat-add"></use></svg>Chat baru</button>
+        <button type="button" data-chat-shortcut="sidebarSearchInput"><svg aria-hidden="true"><use href="icons.svg#i-search"></use></svg>Cari chat</button>
+        <button type="button" data-chat-shortcut="railGallery"><svg aria-hidden="true"><use href="icons.svg#i-folder"></use></svg>File</button>
+
+      </div>
+    </div>
+    <header id="chatHeader"><div id="activeChatIdentity" class="active-chat-identity" role="button" tabindex="0" title="Buka info chat"><div id="activeChatAvatar" class="avatar">#</div><div><h2 id="activeChatTitle">Minta File Bang</h2><span id="activeChatSubtitle">Semua editor kantor</span></div></div><div class="header-actions"><button id="headerSearchButton" title="Cari di chat" aria-label="Cari di chat"><svg><use href="icons.svg#i-search"></use></svg></button><button id="activeChatPin" title="Pin chat" aria-label="Pin chat"><svg><use href="icons.svg#i-pin"></use></svg></button><button id="activeChatMute" title="Mute notifikasi chat" aria-label="Mute notifikasi chat"><svg><use href="icons.svg#i-bell"></use></svg></button><button id="activeChatInfo" title="Info chat / grup" aria-label="Info chat atau grup"><svg><use href="icons.svg#i-more"></use></svg></button><button id="notificationButton" class="hidden" title="Pengaturan notifikasi">Notifikasi</button><button id="updateManagerButton" class="hidden host-update-btn" title="Update CLIENT via LAN">Update</button><button id="adminButton" class="hidden" title="Host Moderation">Admin</button><button id="systemButton" class="hidden" title="System Dashboard">System</button><button id="diagnosticsButton" class="hidden" title="Bug Center">Bug</button><button id="themeButton" class="hidden" title="Ganti Light / Dark Mode">Tema</button><button id="storageButton" class="hidden" title="Storage Management">Storage</button></div></header>
+    <div id="messageSelectionBar" class="message-selection-bar hidden"><div><b><span id="messageSelectionCount">0</span> pesan dipilih</b><span>Klik pesan lain untuk tambah pilihan</span></div><div class="message-selection-actions"><button id="selectionCopy">⧉ Salin</button><button id="selectionReply">↩ Reply</button><button id="selectionDelete">🗑 Hapus</button><button id="selectionCancel">×</button></div></div>
+    <section id="messages" class="messages"><div id="chatDateSticky" class="chat-date-sticky"><span id="chatDateStickyLabel"></span></div></section>
+    <button id="scrollToBottom" class="scroll-to-bottom hidden" type="button" title="Ke pesan terbaru" aria-label="Ke pesan terbaru">↓<span id="scrollToBottomUnread" class="hidden"></span></button>
+    <div id="uploading" class="uploading hidden">Mengirim file…</div>
+    <footer class="composer-wrap"><div id="typingIndicator" class="typing-indicator hidden"><span id="typingText">Sedang mengetik</span><span class="typing-dots"><i></i><i></i><i></i></span></div><div id="replyComposer" class="reply-composer hidden"><div><b id="replyComposerName"></b><span id="replyComposerText"></span></div><button id="cancelReply">×</button></div><div id="filePreview" class="file-preview hidden"></div><div class="composer"><button id="attach" class="round" title="Lampiran">＋</button><button id="emojiButton" class="round" title="Emoji">☺</button><button id="stickerButton" class="round sticker-btn" title="Stiker">▱</button><input id="fileInput" type="file" multiple hidden><div class="text-area-wrap"><textarea id="text" rows="1" placeholder="Ketik pesan"></textarea><div id="mentionPicker" class="mention-picker hidden"></div></div><button id="send" class="send">➤</button></div><div class="hint">Double-klik area kosong → Reply • Blok teks → Ctrl+C • Klik kanan → Menu</div><div id="officeStatusBar" class="office-status-bar sidebar-status"><span id="statusHost">HOST: mengecek…</span><button id="repairConnection" class="hidden" type="button" title="Cari ulang HOST tanpa menutup aplikasi">Perbaiki koneksi</button><span id="statusEditors">0 online</span><span id="statusJobs">Job idle</span><span id="statusBackup" class="host-only-status">Backup -</span></div></footer>
+  </main>
+  <section id="chatImageWorkspace" class="chat-image-workspace hidden" aria-label="Viewer gambar chat">
+    <header class="chat-image-head"><div class="chat-image-identity"><button id="closeChatImageWorkspace" class="chat-image-back" title="Kembali">←</button><div><b id="chatImageTitle">Gambar</b><span id="chatImageMeta">Chat</span></div></div><div class="chat-image-actions"><button id="chatImageRetry" class="hidden" title="Muat ulang gambar">Muat ulang</button><button id="copyChatImage" title="Salin gambar">⧉ Salin</button><a id="downloadChatImage" href="#" download title="Unduh gambar">↓ Unduh</a></div></header>
+    <div id="chatImageStage" class="chat-image-stage"><button id="chatImagePrev" class="chat-image-nav prev" title="Gambar sebelumnya">‹</button><img id="chatImageFull" alt="Preview gambar chat"><button id="chatImageNext" class="chat-image-nav next" title="Gambar berikutnya">›</button></div>
+    <div id="chatImageThumbs" class="chat-image-thumbs"></div>
+  </section>
+</div>
+
+
+<div id="appearanceModal" class="modal hidden"><div class="modal-card appearance-card"><div class="modal-head"><div><b>Tampilan Chat</b><span>Atur tema, warna highlight, posisi bubble, dan lebar daftar chat</span></div><button id="closeAppearance">×</button></div><div class="appearance-grid"><label><span>Mode tampilan</span><select id="appearanceTheme"><option value="light">Light Mode</option><option value="dark">Dark Mode</option></select></label><label><span>Warna highlight chat</span><div class="accent-row"><select id="accentPreset" aria-label="Palet chat"><option value="blue">Biru ChatX</option><option value="green">Hijau WhatsApp</option><option value="custom">Warna kustom</option></select><input id="accentColor" type="color" value="#1765cb" aria-label="Warna kustom"></div></label><label><span>Font aplikasi</span><div class="font-pref-row"><select id="appFontFamily"><option>SF Pro Display</option><option>Segoe UI</option><option>Inter</option><option>Arial</option></select><button id="scanFonts" type="button">Font PC</button></div></label><label><span>Posisi chat lawan</span><select id="peerMessageAlign"><option value="left">Kiri</option><option value="center">Tengah</option><option value="right">Kanan</option></select></label><label><span>Lebar daftar chat</span><div class="width-row"><input id="sidebarWidthRange" type="range" min="280" max="520" step="5" value="360"><b id="sidebarWidthValue">360 px</b></div></label></div><div class="storage-note">Lebar sidebar juga bisa diubah langsung dengan menarik pembatas antara daftar chat dan area pesan.</div></div></div>
+<div id="hostQuickMenu" class="host-quick-menu hidden"><button data-host-action="conversations">Kontrol Percakapan</button><button data-host-action="update">Update CLIENT</button><button data-host-action="admin">Moderation</button><button data-host-action="system">System Dashboard</button><button data-host-action="bug">Bug Center</button></div>
+
+<div id="groupInviteModal" class="modal hidden"><div class="modal-card new-chat-card"><div class="modal-head"><div><b>Tambah Anggota Grup</b><span>Hanya admin grup atau HOST</span></div><button id="closeGroupInvite">×</button></div><div id="groupInviteList" class="new-chat-list"></div><button id="saveGroupInvite" class="primary">Simpan Anggota</button></div></div>
+<div id="hostConversationModal" class="modal hidden"><div class="modal-card new-chat-card host-conversation-card"><div class="modal-head"><div><b>Kontrol Percakapan HOST</b><span>Akses administratif chat/grup yang tidak tampil di daftar utama</span></div><button id="closeHostConversations">×</button></div><div class="storage-note">DM client↔client dan grup tanpa undangan HOST tetap tersembunyi dari sidebar, tetapi HOST dapat membukanya dari sini. Hapus seluruh percakapan hanya tersedia untuk grup.</div><div id="hostConversationList" class="new-chat-list"></div></div></div>
+
+<div id="toolDock" class="tool-dock hidden"><div class="tool-dock-head"><b>ChatX Tools</b><button id="closeToolDock">×</button></div><button id="headCropSidebar" class="chat-item tool-item tool-head"><div class="avatar tool-avatar tool-icon-head">👤</div><div class="chat-meta"><b>Crop Kepala</b><span>Auto wajah + crop PNG</span></div></button><button id="vectorSidebar" class="chat-item tool-item tool-vector"><div class="avatar tool-avatar tool-icon-vector">✒️</div><div class="chat-meta"><b>Vectorizer</b><span>Bitmap jadi SVG vector</span></div></button><button id="upscaleSidebar" class="chat-item tool-item tool-upscale"><div class="avatar tool-avatar tool-icon-upscale">🚀</div><div class="chat-meta"><b>Upscale AI</b><span>Perbesar & tajamkan gambar</span></div></button><button id="removeBgSidebar" class="chat-item tool-item tool-rb"><div class="avatar tool-avatar tool-icon-rb">🪄</div><div class="chat-meta"><b>Remove Background AI</b><span>Hapus background otomatis</span></div></button><button id="fontLibrarySidebar" class="chat-item tool-item tool-font"><div class="avatar tool-avatar tool-icon-font">𝐅</div><div class="chat-meta"><b>Galeri Font</b><span>TTF & OTF tersimpan</span></div></button><button id="psdLibrarySidebar" class="chat-item tool-item tool-psd"><div class="avatar tool-avatar tool-icon-psd">🖼</div><div class="chat-meta"><b>Galeri PSD</b><span>PSD tersimpan</span></div></button></div>
+<div class="hidden" aria-hidden="true"><span id="onlineCount">0</span><div id="onlineList"></div><span id="status"></span><span id="unread">0</span><span id="myName">Editor</span><span id="connectionText"></span><button id="myAvatarButton"><span>E</span></button></div>
+<div id="newChatModal" class="modal hidden"><div class="modal-card new-chat-card synced-new-chat-card"><div class="modal-head"><div><b>Chat Baru</b><span>Pilih editor atau buat grup baru</span></div><button id="closeNewChat">×</button></div><div class="new-chat-tabs"><button id="newDmTab" class="active">Chat Pribadi</button><button id="newGroupTab">Grup Baru</button></div><div id="newDmPane"><div class="search wa-search new-chat-search"><svg class="search-icon"><use href="icons.svg#i-search"></use></svg><input id="newDmSearch" placeholder="Cari editor"></div><div id="newDmList" class="new-chat-list"></div></div><div id="newGroupPane" class="hidden"><div class="new-group-form"><label class="new-group-field"><span>Nama grup</span><input id="newGroupName" maxlength="80" placeholder="Contoh: Tim Editor"></label><label class="new-group-field"><span>Deskripsi <small>opsional</small></span><input id="newGroupDescription" maxlength="200" placeholder="Keterangan grup"></label></div><div class="new-group-member-head"><div><b>Pilih anggota</b><span>Centang editor yang ingin dimasukkan</span></div><strong id="newGroupMemberCount">0 dipilih</strong></div><div id="newGroupMembers" class="new-chat-list new-group-member-list"></div><div class="new-group-footer"><span>Admin grup bisa mengubah nama, foto, dan anggota nanti.</span><button id="createGroupNow" class="primary">Buat Grup</button></div></div></div></div>
+<div id="conversationMenu" class="conversation-menu hidden"><button data-action="unread">Tandai belum dibaca</button><button data-action="pin">📌 Pin / Lepas Pin</button><button data-action="favorite">★ Favorit / Lepas</button><button data-action="mute">🔕 Mute / Bunyikan</button><button data-action="archive">🗄 Archive / Kembalikan</button><div class="menu-separator"></div><button data-action="delete-local">🗑 Hapus chat untuk saya</button><button data-action="leave" class="group-only">↩ Keluar grup</button><button data-action="delete-everyone" class="host-group-only danger-text">🗑 Hapus grup untuk semua</button></div><div id="messageContextMenu" class="conversation-menu message-context-menu hidden"><button data-msg-action="copy-image">⧉ Salin gambar</button><button data-msg-action="copy-text">⧉ Salin teks / caption</button><button data-msg-action="download-image">↓ Simpan sebagai</button><button data-msg-action="select">☑ Pilih pesan</button><button data-msg-action="reply">↩ Reply</button><button data-msg-action="forward">↗ Teruskan</button><button data-msg-action="details">ⓘ Lihat detail</button><button data-msg-action="save-sticker" class="hidden">☆ Simpan stiker</button><button data-msg-action="edit">✎ Edit pesan</button><button data-msg-action="delete">🗑 Hapus pesan</button></div>
+<input id="groupAvatarInput" type="file" accept="image/*" hidden>
+<div id="chatInfoModal" class="modal hidden"><div class="modal-card new-chat-card"><div class="modal-head"><div><b id="chatInfoTitle">Info Chat</b><span id="chatInfoType">Percakapan</span></div><button id="closeChatInfo">×</button></div><div id="chatInfoBody"></div></div></div>
+<script src="../node_modules/socket.io-client/dist/socket.io.min.js"></script>
+<link rel="stylesheet" href="reliability.css">
+<script src="handover-address.js"></script>
+<script src="server-picker.js"></script>
+<script src="../lib/reconnect-policy.js"></script>
+<script src="asset-auth.js"></script>
+<script src="reliability.js"></script>
+<script src="../lib/host-peer-handover.js"></script>
+<script src="chat-image-window.js"></script>
+<script src="chat-receipts.js"></script>
+<script src="../lib/release-notes.js"></script>
+<script src="update-changelog.js"></script>
+<script src="app.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="v7-chat.js"></script>
+<script src="chat-popup-layout.js"></script>
+<script src="chat-reactions.js"></script>
+<link rel="stylesheet" href="motion.css">
+<script src="motion.js"></script>
+<link rel="stylesheet" href="ui-polish.css"><script src="ui-polish.js"></script>
+<script src="group-identity.js"></script>
+<link rel="stylesheet" href="whatsapp-ui.css"><script src="whatsapp-ui.js"></script>
+<link rel="stylesheet" href="bledar-library.css"><script src="bledar-library.js"></script>
+<link rel="stylesheet" href="creative-editor.css"><script src="creative-editor.js"></script><script src="cohost-settings.js"></script>
+<link rel="stylesheet" href="readability.css"><script src="backup-space.js"></script>
+
+
+<link rel="stylesheet" href="matte-theme.css"><script src="modal-layout.js"></script>
+</body></html>

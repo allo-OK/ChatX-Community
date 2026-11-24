@@ -1,0 +1,238 @@
+/* Complete base theme tokens used by legacy and current controls. */
+:root,html[data-theme="dark"]{--bg:#0b1419;--panel:#111b21;--panel2:#18252d;--soft:#202c33;--text:#e9edef;--muted:#91a2ac;--line:#2a3942}
+html[data-theme="light"]{--bg:#f0f2f5;--panel:#ffffff;--panel2:#f6f8fa;--soft:#edf2f5;--text:#17242c;--muted:#63747e;--line:#d8e1e6}
+/* v3.7.18 â€” audited control and surface proportions, light/dark theme tokens. */
+:root{--kc-control-radius:10px;--kc-surface-radius:14px;--kc-icon-size:18px}
+/* Explicit width avoids shrink-to-fit growth caused by inherited fixed offsets. */
+#messageContextMenu,#conversationMenu{width:232px!important;min-width:0!important;max-width:calc(100vw - 24px)!important;right:auto!important;bottom:auto!important;box-sizing:border-box!important;padding:6px!important;border-radius:var(--kc-surface-radius)!important;background:var(--kc-popover,var(--panel))!important;color:var(--text)!important;border:1px solid var(--kc-popup-border,var(--line))!important;box-shadow:var(--kc-popup-shadow,0 12px 36px #0003)!important}
+#messageContextMenu button,#conversationMenu button{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;min-height:36px!important;box-sizing:border-box!important;margin:0!important;padding:9px 11px!important;border:0!important;border-radius:9px!important;background:transparent!important;color:var(--text)!important;text-align:left!important;font-family:inherit!important;font-size:12px!important;font-weight:500!important;line-height:1.4!important;white-space:normal!important}
+#messageContextMenu button:hover,#conversationMenu button:hover{background:var(--soft)!important;color:var(--text)!important}
+#messageContextMenu button[data-msg-action=delete],#conversationMenu .danger-text{color:#e77b80!important}
+.kc-control-icon{display:block!important;flex:0 0 18px!important;width:18px!important;height:18px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important;pointer-events:none!important}
+.kc-control-label{min-width:0;overflow-wrap:anywhere}
+:where(.rail-btn,.header-actions button,.conversation-head-actions button,.composer button,.modal-head>button,.chat-image-actions button,.chat-image-actions a){display:inline-flex;align-items:center;justify-content:center;gap:7px;box-sizing:border-box}
+:where(.rail-btn,.header-actions button,.conversation-head-actions button) svg{width:20px!important;height:20px!important;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+:where(.modal-head>button){width:34px;min-width:34px;height:34px;line-height:1;border-radius:var(--kc-control-radius)}
+:where(.modal-card,.setup-card) :where(button,input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]),select,textarea){border-radius:var(--kc-control-radius)}
+:where(.modal-card,.setup-card) :where(input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]),select,textarea){background:var(--soft);color:var(--text);border:1px solid var(--line);padding:8px 10px;min-height:34px;font:inherit;box-sizing:border-box}
+:where(.modal-card,.setup-card) select option{background:var(--panel);color:var(--text)}
+:where(.modal-card,.setup-card) input[type=checkbox],:where(.modal-card,.setup-card) input[type=radio]{accent-color:var(--kc-accent,#439cff)}
+:where(.modal-card,.setup-card) input[type=range]{accent-color:var(--kc-accent,#439cff)}
+:where(.modal-card,.setup-card) button:disabled{opacity:.45;cursor:not-allowed}
+:where(.modal-card,.setup-card) button:disabled:active{scale:1;transform:none}
+.chat-attachment-thumb{border-radius:9px;overflow:visible}
+.chat-attachment-thumb button[data-preview-file],#addPreviewFile{border-radius:7px!important;border:1px solid var(--line)!important;background:var(--soft)!important;color:var(--text)!important}
+.chat-attachment-thumb button[data-remove-file]{width:20px!important;height:20px!important;min-height:0!important;display:grid;place-items:center;font-size:14px;line-height:1;right:-4px;top:-4px;border:1px solid var(--panel)!important;box-shadow:0 2px 5px #0003}
+.chat-attachment-strip{padding-block:8px}
+#addPreviewFile{flex:0 0 60px;height:64px}
+.file-preview{padding:10px 12px;border-radius:var(--kc-surface-radius)!important}
+:where(.clipboard-preview-wrap,.gallery-preview-body,.head-crop-preview,.upscale-preview,.chat-attachment-stage){border-radius:12px;overflow:hidden}
+:where(.modal-head,.chat-image-head) b{line-height:1.35}
+:where(.modal-head) span{line-height:1.5}
+:where(.tool-dock,.attach-menu,.host-quick-menu,.emoji-popover){border-radius:var(--kc-surface-radius)!important}
+/* Ensure global menu layout never makes hidden actions visible. */
+#messageContextMenu button.hidden,#conversationMenu button.hidden{display:none!important}
+
+.modal-card :where(input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]):not([type=file]),select,textarea){background:var(--soft)!important;color:var(--text)!important;border:1px solid var(--line)!important;border-radius:10px!important;font-size:12px;line-height:1.45}
+.modal-card :where(.primary,.secondary,.danger,.clipboard-actions button,.storage-actions button){min-height:34px;line-height:1.4;font-size:12px}
+.modal-head b .kc-control-icon{display:inline-block!important;vertical-align:-3px;margin-right:7px}
+.rail-btn .kc-control-icon{width:20px!important;height:20px!important;flex-basis:20px!important}
+.rail-btn:has(small){position:relative}
+.rail-btn:has(small)>.kc-control-icon{translate:0 -4px}
+
+body .modal .modal-card :where(input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=color]):not([type=file]),select,textarea){background:var(--soft)!important;border:1px solid var(--line)!important;color:var(--text)!important;border-radius:10px!important;padding:8px 10px!important}
+body .modal .modal-card button:not([class]),body .modal .modal-card button[class=""]{background:var(--soft);color:var(--text);border:1px solid var(--line);border-radius:10px;min-height:34px;padding:8px 12px;font-family:inherit;font-weight:600;font-size:12px;line-height:1.4;cursor:pointer}
+body .modal .modal-head>button{display:grid!important;place-items:center!important;width:34px!important;height:34px!important;min-width:34px!important;padding:0!important;border-radius:10px!important}
+.modal-card input[type=color]{width:42px;height:34px;padding:3px;border:1px solid var(--line);border-radius:9px;background:var(--soft);cursor:pointer}
+.modal-card input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.modal-card input[type=color]::-webkit-color-swatch{border:0;border-radius:6px}
+
+/* Empty previews retain their frame without a broken-image glyph. */
+:where(.modal-card,.chat-attachment-stage) img:not([src]),:where(.modal-card,.chat-attachment-stage) img[src=""]{opacity:0}
+
+/* Labelled rail icons use one vertical offset; labels never push icons upward. */
+.wa-rail .rail-btn:has(small){display:grid!important;place-items:center!important}
+.wa-rail .rail-btn:has(small)>.kc-control-icon{transform:none!important;translate:0 -4px!important;margin:0!important}
+.wa-rail .rail-btn:has(small)>small{position:absolute!important;left:0!important;right:0!important;bottom:3px!important;text-align:center!important;line-height:1!important;pointer-events:none}
+#railSystem.hidden,#railModeration.hidden,#railServerPicker.hidden,#railHostMore.hidden,.wa-rail .rail-btn.hidden{display:none!important}
+
+.order-flags{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.order-flags:empty{display:none}
+.order-flag{display:inline-flex;align-items:center;min-height:22px;padding:3px 7px;border:1px solid var(--line);border-radius:7px;font-size:10px;font-weight:800;line-height:1.2;letter-spacing:.2px;background:var(--soft);color:var(--text)}
+.order-flag.urgent{color:#b33038;background:#ffedef;border-color:#edbac0}
+.order-flag.instant{color:#8c570a;background:#fff4db;border-color:#e9cf94}
+.order-flag.delivery{color:#083e90;background:#e3edfc;border-color:#a8c3eb}
+.order-flag.repeat-order{color:#245b9a;background:#eaf2ff;border-color:#b9cdef}
+html[data-theme=dark] .order-flag.urgent{color:#ffb4bd;background:#4b242d;border-color:#79424b}
+html[data-theme=dark] .order-flag.instant{color:#ffda8f;background:#493a20;border-color:#76603b}
+html[data-theme=dark] .order-flag.delivery{color:#94bbf6;background:#172a46;border-color:#324e79}
+html[data-theme=dark] .order-flag.repeat-order{color:#b9d4ff;background:#1b304a;border-color:#355778}
+
+.order-platform{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px;line-height:1.3}
+.order-platform img{display:block;width:20px;height:20px;object-fit:contain;border-radius:5px;flex-shrink:0}
+.order-platform-slot:empty{display:none}
+
+/* Rounded, contained focus cues; do not draw rectangular outlines around the composer/profile. */
+body #text:focus-visible,body #text:focus{outline:none!important;box-shadow:none!important}
+body .composer:focus-within{border-color:color-mix(in srgb,var(--kc-accent) 42%,var(--line));box-shadow:0 0 0 2px color-mix(in srgb,var(--kc-accent) 9%,transparent)}
+.chatx-rail-tooltip{position:fixed;z-index:79;pointer-events:none;transform:translateY(-50%);padding:6px 10px;border:1px solid var(--line);border-radius:9px;background:var(--panel,#202020);color:var(--text,#f0f0f0);font-size:12px;line-height:1.3;white-space:nowrap}
+body .wa-search:focus-within{border-radius:12px;box-shadow:0 0 0 2px color-mix(in srgb,var(--kc-accent) 65%,transparent)}
+body .wa-search #sidebarSearchInput:focus-visible{outline:none!important;box-shadow:none!important}
+body #discordProfileBar:focus,body #discordProfileBar:focus-visible{outline:none!important;box-shadow:inset 0 0 0 2px var(--line)!important;border-radius:12px!important}
+body .wa-rail .rail-btn,body .wa-rail .rail-gallery,body #railSpotify,body #railDailyWork,body #railServerPicker{width:42px!important;height:46px!important;min-width:42px!important;min-height:46px!important;max-height:46px!important;flex:0 0 46px!important;border-radius:12px!important;display:grid!important;place-items:center!important;padding:0!important;box-sizing:border-box!important}
+body .wa-rail .rail-btn.hidden{display:none!important}
+body .wa-rail{overflow-y:auto;scrollbar-width:thin}
+body .wa-rail .rail-btn svg{margin:0!important}
+body .chat-image-nav{width:42px!important;height:42px!important;display:grid!important;place-items:center!important;padding:0!important;line-height:1!important}
+body .chat-image-nav svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+body .order-card.order-card-v186{border:1px solid var(--line)!important;border-radius:14px!important;overflow:hidden!important;margin-bottom:12px;background:var(--panel)!important}
+body .order-card .order-head{padding:12px!important;gap:10px;align-items:center;background:var(--panel)!important}
+body .order-card .order-identity{flex:1;min-width:0}
+body .order-card .order-body{border:0!important;border-top:1px solid var(--line)!important;border-radius:0!important;background:var(--panel2)!important;padding:12px!important;line-height:1.6!important}
+body .order-card .order-foot{padding:9px 12px;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);background:var(--panel)}
+.order-platform-select{max-width:116px;min-height:30px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--text);padding:5px 7px;font-size:11px}
+@media(max-width:900px){.order-head{flex-wrap:wrap}.order-platform-select{max-width:104px}}
+
+body .order-card .order-body:focus,body .order-card .order-body:focus-visible{outline:none!important;box-shadow:none!important}
+body .order-card.active{border-color:var(--line)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--text) 12%,transparent)!important}
+body .order-status.pending{background:var(--soft)!important;color:var(--text)!important;border:1px solid var(--line)!important}
+
+
+.order-copy-error{margin:10px 12px 12px;padding:12px 14px;border:1px solid color-mix(in srgb,#e57c73 45%,var(--line));border-radius:12px;background:color-mix(in srgb,#e57c73 9%,var(--panel));color:var(--text);font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+/* Compact order identity: a numbered drag handle, two-line logo and metadata. */
+body .order-card .order-head{min-height:68px!important;gap:12px!important;padding:12px 14px!important;box-sizing:border-box}
+body .order-card .order-drag{display:flex;align-items:center;justify-content:center;gap:5px;width:40px;min-width:40px;height:34px;flex:0 0 40px;border:1px solid var(--line);border-radius:9px;background:var(--soft);color:var(--muted);cursor:grab;opacity:1}
+body .order-card .order-drag:active{cursor:grabbing}body .order-card .order-drag svg{width:9px;height:15px;fill:currentColor;flex-shrink:0}
+body .order-card .order-index{width:auto;flex:none;padding:0!important;background:transparent!important;border:0!important;color:var(--muted);font:600 11px/1 "Segoe UI",sans-serif!important}
+body .order-card .order-identity{display:grid;grid-template-columns:34px max-content minmax(0,1fr);column-gap:10px;row-gap:2px;align-items:center;min-width:0;flex:1;margin:0!important}
+body .order-card .order-platform-slot,body .order-card .order-platform{display:contents}
+body .order-card .order-platform img{grid-column:1;grid-row:1/3;width:34px;height:34px;object-fit:contain;border-radius:8px;align-self:center}
+body .order-card .order-number{grid-column:2/4;grid-row:1;font:700 14px/1.35 "Segoe UI",sans-serif!important;text-decoration:none!important;letter-spacing:.15px;overflow-wrap:anywhere;color:var(--text);justify-self:start}
+body .order-card .order-platform>span{grid-column:2;grid-row:2;font:400 11px/1.4 "Segoe UI",sans-serif;color:var(--muted)}
+body .order-card .order-meta{grid-column:3;grid-row:2;margin:0!important;font:400 10px/1.4 "Segoe UI",sans-serif!important;color:var(--muted)!important;justify-self:start;white-space:nowrap}
+body .order-card .order-flags{grid-column:2/4;grid-row:3;margin-top:4px}body .order-card .order-flags:empty{display:none}
+body .order-card .order-platform-slot:empty~.order-number,body .order-card .order-platform-slot:empty~.order-meta{grid-column:1/4}
+body .order-card .order-platform-select{max-width:105px}
+body .order-card .order-more,body .order-card .order-view{width:34px;height:34px;min-width:34px;padding:0!important;display:grid;place-items:center}
+@media(max-width:650px){body .order-card .order-head{gap:8px!important;padding:10px!important}body .order-card .order-identity{grid-template-columns:32px max-content minmax(0,1fr);column-gap:8px}body .order-card .order-platform img{width:32px;height:32px}body .order-card .order-platform-select{max-width:90px}body .order-card .order-meta{white-space:normal}}
+body .daily-toolbar{position:relative;gap:8px!important;padding:10px 20px!important;z-index:8}
+.group-identity-card{width:min(440px,calc(100vw - 32px));padding:22px;border-radius:18px}.group-identity-card label{display:grid;gap:8px;font-size:12px;margin:16px 0}.group-identity-card input,.group-identity-card textarea{width:100%;font:inherit}.group-identity-actions{display:flex;justify-content:flex-end;gap:8px}.group-identity-error{color:#e77b80;font-size:12px;line-height:1.5}.group-identity-error:empty{display:none}#groupIdentityModal{z-index:120000}
+body .wa-rail .rail-btn{position:relative;gap:0!important}body .wa-rail .rail-btn:has(small){grid-template-rows:22px 10px;align-content:center}body .wa-rail .rail-btn small{font:600 8px/10px "Segoe UI",sans-serif!important;margin:1px 0 0!important;letter-spacing:.2px}body .wa-rail .rail-btn .kc-control-icon{justify-self:center;align-self:center}
+/* Breathing room around editable format; secondary indicators stay quiet. */
+body .daily-head{padding:16px 24px!important;gap:16px!important;flex-wrap:wrap!important}body .daily-head>div:first-child>b{font-size:18px!important;line-height:1.4}body .daily-head #dailySaveState{font-size:11px;color:var(--muted)}body .daily-date-nav{gap:6px!important;margin-left:auto}
+body .daily-stats{padding:8px 24px!important;gap:16px!important;border:0!important;min-height:24px;align-items:center}body .daily-stats span{padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important;color:var(--muted)!important;font-size:11px!important}body #dailyDuplicate:not(.warn){display:none!important}body .daily-board{padding:0 20px 24px!important}body .order-card .order-body{padding:16px 18px!important;line-height:1.8!important;font-family:Consolas,"Cascadia Mono",monospace!important;font-size:13px!important;border:0!important;border-radius:0!important;resize:none}body .order-card .order-foot{padding:10px 14px!important;gap:10px!important;border-top:1px solid var(--line)!important;background:var(--panel)!important}body .order-card .order-foot>span{font-size:10px!important;color:var(--muted)!important}body .order-copy-actions{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}body .order-copy-actions button{font-size:11px!important;min-height:32px!important;padding:7px 10px!important}body .order-card .order-foot>span:last-child{display:none}
+body .daily-zoom{display:inline-flex;align-items:center;gap:5px;border-left:1px solid var(--line);padding-left:8px;margin-left:2px}body .daily-zoom b{min-width:34px;text-align:center;font-size:10px}body .daily-toolbar .daily-zoom button{min-width:32px!important;padding:0 8px!important}
+@media(max-width:650px){body .daily-head{padding:14px!important}body .daily-date-nav{margin-left:0;flex-wrap:wrap}body .daily-toolbar{padding:10px 14px!important;gap:6px!important}body .daily-board{padding:0 10px 18px!important}body .order-card .order-body{padding:14px!important;font-size:12px!important}body .order-copy-actions{width:100%;margin-left:0}body .daily-stats{padding:8px 14px!important}}
+body .order-card .order-drag .order-index{display:block!important;min-width:0!important;width:auto!important;height:auto!important;flex:0 0 auto!important}
+body .order-card .order-drag svg{flex:0 0 9px!important}
+body .order-card .order-head .order-platform-select{max-width:92px;font-size:10px!important;min-height:30px!important;padding:5px 7px!important}body #dailyWorkModal .daily-toolbar{z-index:60!important}
+body .group-edit-actions button,body .order-example{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important}body .group-edit-actions .kc-control-icon,body .order-example .kc-control-icon{width:16px!important;height:16px!important;flex-basis:16px!important}body .order-more .kc-control-icon,body .order-view .kc-control-icon{width:18px!important;height:18px!important}
+body .daily-stats #dailyDuplicate.warn{color:#efb97a!important;font-weight:600}
+
+/* Make the daily work controls read as aligned, deliberate groups. */
+body .daily-toolbar{align-items:center!important;row-gap:8px!important}
+body .daily-toolbar>button:not([hidden]){min-height:38px!important;border-radius:11px!important}
+body .daily-zoom{box-sizing:border-box;gap:3px!important;min-height:40px;padding:3px!important;margin:0 2px!important;border:1px solid var(--line)!important;border-radius:12px!important;background:var(--panel)!important}
+body .daily-zoom>button{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:34px!important;width:34px;height:32px!important;min-height:32px!important;padding:0!important;border:0!important;border-radius:8px!important;background:transparent!important}
+body .daily-zoom>button:hover{background:var(--soft)!important}
+body .daily-zoom>button .kc-control-icon{width:16px!important;height:16px!important}
+body .daily-zoom>b{box-sizing:border-box;display:grid;place-items:center;align-self:stretch;min-width:52px!important;padding:0 10px;border-right:1px solid var(--line);border-left:1px solid var(--line);font-size:12px!important;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
+body .daily-date-nav{gap:8px!important;align-items:center!important}
+body .daily-date-nav>#dailyPrev,body .daily-date-nav>#dailyNext{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;padding:0!important;border-radius:12px!important}
+body .daily-date-nav>#dailyPrev .kc-control-icon,body .daily-date-nav>#dailyNext .kc-control-icon{width:18px!important;height:18px!important}
+body .daily-date-nav>#dailyDate{box-sizing:border-box!important;width:154px!important;min-width:154px!important;height:40px!important;min-height:40px!important;padding:0 12px!important;border-radius:11px!important;font-size:13px!important;font-variant-numeric:tabular-nums}
+body .daily-date-nav>#dailyToday{min-height:40px!important;padding:0 14px!important;border-radius:11px!important}
+body .daily-stats{display:flex!important;flex-wrap:wrap;gap:8px!important;padding-top:10px!important;padding-bottom:10px!important}
+body .daily-stats>span:not([hidden]){box-sizing:border-box;display:inline-flex!important;align-items:center;min-height:30px;padding:5px 11px!important;border:1px solid var(--line)!important;border-radius:999px!important;background:var(--soft)!important;color:var(--text)!important;font-size:12px!important;font-weight:600;line-height:1.2;white-space:nowrap;font-variant-numeric:tabular-nums}
+body .daily-work-modal:not(.hidden)>.daily-work-card{animation:panel-in .2s cubic-bezier(.2,.8,.2,1) both}
+body #dailyWorkModal .order-card{transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+body #dailyWorkModal .order-card:hover{border-color:color-mix(in srgb,var(--kc-accent) 38%,var(--line));box-shadow:0 2px 10px #0002}
+@keyframes panel-in{from{opacity:.65;transform:translateY(7px) scale(.995)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes menu-in{from{opacity:0;transform:translateY(-4px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:650px){body .daily-date-nav{gap:6px!important}body .daily-date-nav>#dailyDate{width:146px!important;min-width:146px!important}body .daily-toolbar{align-items:center!important}}
+
+/* Put the main copy actions first and make their priority clear. */
+body .order-card .order-foot{justify-content:flex-start!important;gap:8px!important}
+body .order-card .order-foot>span:first-child{order:0;min-width:max-content}
+body .order-card .order-copy-actions{order:1;margin:0!important;display:inline-flex!important;gap:7px!important;flex-wrap:wrap}
+body .order-card .order-example{order:2;margin:0!important}
+body .order-card .order-copy-actions button,body .order-card .order-example{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-height:36px!important;padding:8px 12px!important;border:1px solid var(--line)!important;border-radius:10px!important;font-size:11px!important;font-weight:600!important;line-height:1.2!important;transition:background-color .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease!important}
+body .order-card .order-copy-actions .kc-control-icon,body .order-card .order-example .kc-control-icon{width:16px!important;height:16px!important;flex:0 0 16px!important;stroke-width:1.8!important}
+body .daily-toolbar>button .kc-control-icon{width:16px!important;height:16px!important;flex:0 0 16px!important}
+body .daily-toolbar>button:has(.kc-control-icon){gap:7px!important}
+body .order-card .order-copy-actions button:hover,body .order-card .order-example:hover{transform:translateY(-1px)}
+@media(max-width:650px){body .order-card .order-foot{align-items:center!important}body .order-card .order-copy-actions{order:1;flex:1 1 100%;width:100%!important;margin:0!important}body .order-card .order-foot>span:first-child{align-self:center}body .order-card .order-example{order:2}}
+
+/* Keep the order menu compact and reachable beside the clicked card. */
+#dailySmartMenu{overflow-y:auto!important;overscroll-behavior:contain;pointer-events:auto}
+#dailySmartMenu.hidden{pointer-events:none!important}
+.order-drag{cursor:grab;user-select:none;-webkit-user-select:none}
+.order-body{user-select:text;-webkit-user-select:text}
+body>#dailySmartMenu.hidden{display:none!important;pointer-events:none!important}
+
+body .order-head .note-zoom-reset{appearance:none;display:inline-flex;align-items:center;justify-content:center;min-width:48px;min-height:30px;padding:5px 9px;border:1px solid var(--line,#344750);border-radius:10px;background:var(--soft,#203139);color:var(--text,#edf5f7);font-size:10px;font-weight:700;line-height:1.2;cursor:pointer;transition:background-color .16s ease,border-color .16s ease}
+body .order-head .note-zoom-reset:hover{background:color-mix(in srgb,var(--accent,#206cde) 12%,var(--soft,#203139));border-color:var(--accent,#206cde)}
+body .order-head .note-zoom-reset:focus-visible{outline:2px solid var(--accent,#206cde);outline-offset:2px}.note-tools-list{display:grid;gap:5px}.note-tools-list button{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left}.note-tools-list kbd{font-size:10px;color:var(--muted)}.editor-find-options{display:flex;flex-wrap:wrap;gap:10px}.editor-find-options label{display:flex;align-items:center;gap:5px}.editor-find-options input{width:auto!important}
+body .capture-compact>div:first-child{grid-column:1/-1}
+body .capture-compact>div:first-child>span{display:none!important}
+body .capture-compact #dailyCapture{min-height:52px!important;height:52px!important;max-height:110px!important;overflow:auto!important;resize:vertical;padding:8px 10px!important;font-size:12px!important}
+body .capture-compact #dailyCapture:focus{height:88px!important}
+body .capture-compact #dailyCaptureAdd{grid-column:2;grid-row:2;align-self:center;margin:0!important;min-height:34px!important;padding:8px 12px!important}
+body .capture-compact .capture-hint{grid-column:1/-1;font-size:10px!important;margin:0!important}
+.order-drag{touch-action:none}
+body .order-card.live-drag{transition:none!important;position:relative;z-index:20;pointer-events:none;box-shadow:0 8px 24px #0005!important;will-change:transform;opacity:.95!important}
+body .order-card.live-drag .order-drag{pointer-events:auto;cursor:grabbing}
+@media(max-width:650px){}
+
+/* Discrete display transitions keep closing visible but non-interactive. */
+#dailySmartMenu{opacity:1;transform:translateY(0);transition:opacity .16s ease,transform .16s ease,display .16s allow-discrete!important}
+#dailySmartMenu.hidden{opacity:0;transform:translateY(-6px);pointer-events:none!important}
+@starting-style{#dailySmartMenu:not(.hidden){opacity:0;transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){#dailySmartMenu{transition:none!important}}
+
+body #dailySmartMenu button[data-m="delete"]{color:#ed7777!important}
+body #dailySmartMenu button[data-m="delete"]:hover,body #dailySmartMenu button[data-m="delete"]:focus-visible{background:#c93640!important;color:#fff!important}
+
+body .daily-head #dailyEditorIdentity{display:block!important;margin-top:4px!important;color:var(--text,#edf5f7)!important;font-size:12px!important;font-weight:600!important;line-height:1.4!important}
+
+
+body .daily-head #dailyServerSyncState{display:block!important;font-size:11px!important;line-height:1.4!important;color:var(--muted,#93a6b0)!important;margin-top:3px!important}
+
+/* Full thumbnails: keep intrinsic image size inside its bounded preview cell. */
+.file-gallery-results:not(.view-list) .gallery-thumb{position:relative;height:auto!important;aspect-ratio:1;min-width:0;min-height:0}
+.file-gallery-results:not(.view-list) .gallery-thumb img{position:absolute;inset:0;display:block;min-width:0;min-height:0;max-width:100%;max-height:100%;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;box-sizing:border-box;padding:6px!important}
+
+#profileDisplayName{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);font:inherit}#profileDisplayName:focus{outline:2px solid var(--kc-accent);outline-offset:1px}
+
+.composer :is(#attach,#emojiButton,#stickerButton) .kc-control-icon { width: 19px !important; height: 19px !important; flex-basis: 19px !important; stroke-width: 1.65 !important; }
+
+/* Notification preferences use compact controls with readable selected values. */
+#notificationModal .settings-grid > label { min-width: 0; padding: 10px 12px; gap: 6px; }
+#notificationModal .settings-grid > label:last-child { grid-column: auto; }
+#notificationModal .settings-grid > label > span { font-size: 13px; font-weight: 600; color: var(--text); }
+#notificationModal .shipping-select { width: 100%; min-width: 0; }
+#notificationModal .shipping-select-button {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 36px !important;
+  padding: 7px 10px !important;
+}
+#notificationModal .shipping-select-button .shipping-select-value {
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--text);
+}
+#notificationModal .shipping-select-button .shipping-select-arrow {
+  display: inline-flex;
+  flex: 0 0 16px;
+  margin-left: auto;
+  color: var(--text);
+}
+#notificationModal .shipping-select-arrow svg { width: 16px; height: 16px; }
+:is(#normalNotifSize-menu,#normalNotifSound-menu,#notifStyle-menu,#notifPosition-menu) .shipping-select-options button { min-height: 34px !important; padding: 6px 9px !important; }
+
+body .conversation-filters { mask-image: none !important; }
+html body .conversation-filters .conv-filter.active { transform: none !important; transition-property: background-color, border-color !important; }
+body .conversation-filters .conv-filter:focus-visible { outline-offset: -3px !important; }

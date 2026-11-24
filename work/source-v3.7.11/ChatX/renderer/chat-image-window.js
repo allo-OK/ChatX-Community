@@ -1,0 +1,1 @@
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.KCChatImageWindow=api;})(globalThis,()=>({indices(length,index,radius=6){const start=Math.max(0,index-radius),end=Math.min(length,index+radius+1);return Array.from({length:Math.max(0,end-start)},(_,i)=>start+i);}}));

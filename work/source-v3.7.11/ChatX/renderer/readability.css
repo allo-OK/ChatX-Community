@@ -1,0 +1,67 @@
+/* Shared readable UI, with restrained section colors and visible price reductions. */
+body{font-size:15px;line-height:1.5}button,input,select,textarea{font-family:inherit}button{font-size:14px}input,select,textarea{font-size:15px}.modal-card{font-size:15px}.modal-head b{font-size:20px}.modal-head span,.profile-card p,.storage-note,.storage-loading,.empty-state{font-size:14px;line-height:1.65;color:var(--muted,#bed0da)}.storage-section{border-color:var(--line,#3b4e58)}.storage-section-head b{font-size:16px}.storage-section-head button,.storage-actions button,.primary,.secondary,.danger{font-size:14px;min-height:40px}.stat-card span,.stat-card small,.largest-row span,.largest-row b,.largest-row strong{font-size:13px}.conversation-row .chat-meta b,.person b{font-size:15px}.chat-meta span,.person small,.conv-preview{font-size:13px;line-height:1.5}.modal-card label{line-height:1.55}.toast{font-size:14px;line-height:1.55}.modal-card input:focus-visible,.modal-card button:focus-visible{outline:3px solid #70baff;outline-offset:2px}
+.shipping-card{font-size:15px}.shipping-card label,.shipping-card .quote-message,.shipping-card #shippingStatus{font-size:14px!important;line-height:1.65;opacity:1}.shipping-card button,.shipping-card input,.shipping-card .shipping-select-button{font-size:15px!important}.shipping-card .shipping-select-text{font-size:15px!important}.shipping-select-popup{font-size:15px}.shipping-card .quote-prints b{font-size:13px}.shipping-card .quote-prints small,.shipping-card .shipping-rate-card small{font-size:13px;opacity:1}.shipping-card .shipping-rate-card b{font-size:15px}.shipping-card .quote-totals p{font-size:15px}.shipping-card .quote-grand{font-size:21px!important}.shipping-card #quotePreview{font-size:15px;opacity:1}.shipping-card .shipping-section{border-width:1px;border-style:solid;border-color:#476878;background:color-mix(in srgb,#2d759b 8%,var(--panel,#14232c))}.shipping-card .quote-section{border-color:#597584;background:color-mix(in srgb,#568287 8%,var(--panel,#14232c))}.shipping-card .quote-print-section{background:color-mix(in srgb,#7683cf 8%,var(--panel,#14232c));padding:16px;border-radius:12px}.shipping-card .quote-totals{border:2px solid #4e7cc2;background:color-mix(in srgb,#2a5ead 12%,var(--panel,#14232c))}
+.discount-review-heading{font-size:18px;font-weight:750;margin:24px 0 10px;line-height:1.5}.shipping-card .quote-discounts-prominent{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}.shipping-card .quote-discounts-prominent>label{border:2px solid #f3be47;border-left-width:6px;border-radius:14px;padding:16px;background:#fff0c4;color:#302100;font-weight:750;font-size:16px!important}.shipping-card .quote-discounts-prominent>label+label{background:#dceeff;color:#102e50;border-color:#5eaeef}.shipping-card .quote-discounts-prominent>label.discount-active{box-shadow:0 0 0 3px #ffd26455}.shipping-card .quote-discounts-prominent>label+label.discount-active{box-shadow:0 0 0 3px #5eaeef55}.shipping-card .quote-discounts-prominent input,.shipping-card .quote-discounts-prominent .shipping-select-button{background:#fff!important;color:#182a39!important;border:1px solid #74838d!important;font-weight:600;min-height:46px}.shipping-card .quote-discounts-prominent .shipping-select-button *{color:#182a39!important;font-size:15px!important}.discount-review-status{font-size:14px;font-weight:600;padding:12px 14px;border-radius:10px;background:#fff0c4;color:#302100}.discount-review-status.has-discount{border:2px solid #eeb641}.shipping-card #quoteTotals p:has(span:first-child){line-height:1.6}.backup-space-panel{margin:16px 0;border:1px solid #52728a;border-radius:14px;padding:16px;background:color-mix(in srgb,#3e789b 10%,var(--panel,#14232c))}.backup-space-panel h3{font-size:18px;margin:0 0 10px}.backup-space-panel p{font-size:14px;line-height:1.65}.backup-space-panel button{font-size:14px;padding:10px 16px;border-radius:10px;margin:4px 8px 4px 0}.backup-space-panel [hidden]{display:none!important}
+@media(max-width:650px){.shipping-card .quote-discounts-prominent{grid-template-columns:1fr}.shipping-card .quote-discounts-prominent>label{padding:14px}}
+
+.modal-head span,.storage-note,.storage-loading,.empty-state{color:#bfd0da}html[data-theme="light"] :is(.modal-head span,.storage-note,.storage-loading,.empty-state){color:#425466}.discount-total-order{background:#fff0c4;color:#302100;border-radius:8px;padding:10px}.discount-total-shipping{background:#dceeff;color:#102e50;border-radius:8px;padding:10px}
+
+#dailyWorkModal .order-card.order-card-v186 .order-body,#dailyWorkModal .order-card .order-body{font-size:14px!important;line-height:1.7!important}body .order-copy-actions button{font-size:13px!important;min-height:38px!important}body .order-card .order-foot>span{font-size:12px!important}.order-weight{font-size:13px!important;line-height:1.6}#dailyWorkModal .order-card{margin-bottom:12px!important;border:1px solid var(--line,#38505a)!important}html[data-theme="light"] .discount-review-heading{color:#253d4b}
+
+#sizeChangeArea [hidden]{display:none!important}#sizeChangePanel label{display:grid;gap:6px;font-size:15px}#sizeChangePanel select,#sizeChangePanel input{min-height:44px;padding:9px 12px;border:1px solid #55717e;border-radius:10px;background:var(--panel,#172831);color:var(--text,#edf5f8);font-size:15px}#sizeChangeItem{width:100%;max-width:100%}#sizeChangeTotal{font-size:19px;display:block;margin:12px 0;padding:12px;background:#fff0c4;color:#302100;border-radius:10px}#sizeChangeQty{width:100px}#sizeChangeRows p{overflow-wrap:anywhere}
+
+#sizeChangePanel .shipping-select-button{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;width:100%;padding:10px 12px;border-radius:10px;font-size:15px}#sizeChangePanel .shipping-select-value{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#sizeChangePanel .shipping-select-arrow{flex:0 0 20px;width:20px;height:20px}#sizeChangePanel .shipping-select-arrow svg{width:20px;height:20px}#sizeChangePanel .weight-actions{align-items:end}#sizeChangePanel .weight-actions label{min-width:100px}
+#chatEmptyState img.empty-logo{width:68px!important;height:68px!important;display:block!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;object-fit:contain}
+html:not([data-theme="light"]){
+  --chatx-blue-text:#aebfd4;
+  --chatx-blue-surface:#222a35;
+  --chatx-blue-control:#173e76;
+  --chatx-blue-on-control:#f1f5fb;
+  --bg:#181818!important;
+  --panel:#191c1d!important;
+  --panel2:#222222!important;
+  --kc-accent-deep:var(--chatx-blue-text)!important;
+  --v194-green:var(--chatx-blue-control)!important;
+  --v194-green-strong:var(--chatx-blue-text)!important;
+}
+html:not([data-theme="light"])[data-accent-preset="blue"]{
+  --kc-accent:var(--chatx-blue-control)!important;
+}
+html:not([data-theme="light"]) :is(#runtimeRoleBadge,.conv-role,.conv-activity,.user-panel-host,.user-panel-job,#userPanelPresence){color:var(--chatx-blue-text)!important}
+html:not([data-theme="light"]) :is(.conv-role,.user-panel-host){background:var(--chatx-blue-surface)!important}
+html:not([data-theme="light"]) :is(.conversation-list .unread,.wa-rail .rail-btn.active){background:var(--chatx-blue-control)!important;color:var(--chatx-blue-on-control)!important}
+html:not([data-theme="light"]) :is(button,input,select,textarea,a):focus-visible{outline-color:var(--chatx-blue-text)}
+#runtimeRoleBadge{font-size:11px!important}
+.conversation-list .conv-role,.user-panel-top .user-panel-host{font-size:9px!important}
+html:not([data-theme="light"]) #runtimeRoleBadge.bad{color:#ff9292!important}
+.chat-empty-shortcuts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:100%;padding:4px 14px}
+.chat-empty-shortcuts button{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--text);font:inherit;font-weight:650}
+.chat-empty-shortcuts button:is(:hover,:focus-visible){border-color:var(--accent);color:var(--accent)}
+.chat-empty-shortcuts svg,.wa-rail .rail-btn svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+.wa-rail .rail-btn:is(#railChats,#railTools) svg{fill:none;stroke:currentColor}
+.chat-empty-shortcuts svg{color:var(--chatx-blue-text,#aebfd4)}
+html[data-theme="light"] .chat-empty-shortcuts svg{color:#1765cb}
+html:not([data-theme="light"]) #messages .msg-row.mine .bubble{
+  background:var(--chatx-blue-control)!important;
+  border-color:transparent!important;
+}
+html:not([data-theme="light"]) #messages .msg-row.mine :is(.body,.sender,.meta){
+  --bubble-text:var(--chatx-blue-on-control);
+  color:var(--chatx-blue-on-control)!important;
+}
+html:not([data-theme="light"])[data-accent-preset="green"]{
+  --chatx-blue-text:#a0cfb4;
+  --chatx-blue-surface:#1e3128;
+  --chatx-blue-control:#005c4b;
+}
+html[data-theme="light"][data-accent-preset="green"]{
+  --kc-accent-deep:#166348!important;
+  --v194-green:#128c4a!important;
+  --v194-green-strong:#166348!important;
+}
+html[data-theme="light"][data-accent-preset="green"] #messages .msg-row.mine .bubble{
+  background:#d9fdd3!important;
+}
+html[data-theme="light"][data-accent-preset="green"] .chat-empty-shortcuts svg{color:#166348}
+html[data-accent-preset="custom"]{--chatx-blue-control:var(--kc-accent)}
+.accent-row #accentPreset{flex:1;min-width:0}

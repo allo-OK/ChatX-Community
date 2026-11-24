@@ -1,0 +1,25 @@
+#requiredUpdate {
+  box-sizing: border-box;
+  width: min(480px, calc(100vw - 32px));
+  padding: 26px;
+  color: #f4f3ef;
+  background: #232323;
+  border: 1px solid #484848;
+  border-radius: 18px;
+  box-shadow: 0 20px 70px #000a;
+}
+#requiredUpdate::backdrop { background: #111; }
+#requiredUpdate h2 { margin: 6px 0 10px; }
+#requiredUpdateStatus { min-height: 1.5em; color: #cfcec9; }
+#requiredUpdateChangelog { max-height: 180px; overflow: auto; white-space: pre-wrap; }
+#requiredUpdate progress { width: 100%; margin-top: 16px; accent-color: #81d6aa; }
+#requiredUpdate button {
+  padding: 10px 16px;
+  color: #fff;
+  background: #276548;
+  border: 1px solid #418767;
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 600;
+}
+#requiredUpdate button:disabled { opacity: .6; }

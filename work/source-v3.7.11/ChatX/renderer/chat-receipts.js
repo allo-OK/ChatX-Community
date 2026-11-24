@@ -1,0 +1,1 @@
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.KCChatReceipts=api;})(globalThis,()=>({icon(double){return '<svg viewBox="0 0 24 16" aria-hidden="true" focusable="false"><path d="'+(double?'m2 8 4 4L16 2 M10 10l2 2L22 2':'m5 8 4 4L19 2')+'"/></svg>';}}));

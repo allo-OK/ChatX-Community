@@ -1,0 +1,32 @@
+[package]
+name = "chatx-client"
+version = "1.1.43"
+edition = "2021"
+default-run = "chatx-client"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+serde_json = "1"
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+serde_json = "1"
+reqwest = { version = "0.13", default-features = false }
+tokio = { version = "1", features = ["net", "time", "macros", "rt", "io-util", "fs"] }
+tokio-util = { version = "0.7", features = ["io"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "multipart", "tokio"] }
+rusqlite = { version = "0.41.1", features = ["bundled"] }
+socketioxide = { version = "0.18.9", features = ["extensions"] }
+uuid = { version = "1", features = ["v4"] }
+sha2 = "0.10"
+sha1 = "0.11"
+ed25519-dalek = { version = "2.2.0", features = ["pem"] }
+base64 = "0.22.1"
+png = "0.18.1"
+webview2-com = "0.39.1"
+windows = { version = "0.62.2", features = ["Win32_Graphics_Dxgi", "Win32_Storage_EnhancedStorage", "Win32_UI_Shell_PropertiesSystem", "Win32_System_Com_StructuredStorage", "Win32_System_Variant", "Graphics_Imaging", "Media_FaceAnalysis", "Media_Control", "Security_Cryptography", "Storage_Streams", "Win32_System_WinRT"] }
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_Globalization", "Win32_Graphics_Gdi", "Win32_NetworkManagement_IpHelper", "Win32_Networking_WinHttp", "Win32_Security_Cryptography", "Win32_Storage_FileSystem", "Win32_System_Com", "Win32_System_IO", "Win32_System_Ioctl", "Win32_System_DataExchange", "Win32_System_LibraryLoader", "Win32_System_Memory", "Win32_System_ProcessStatus", "Win32_System_Registry", "Win32_System_SystemInformation", "Win32_System_Threading", "Win32_System_WindowsProgramming", "Win32_UI_Controls_Dialogs", "Win32_UI_Shell_Common", "Win32_UI_WindowsAndMessaging"] }
+
+[[bin]]
+name = "chatx-host"
+path = "src/bin/chatx-host.rs"

@@ -1,0 +1,3 @@
+function videoSource(selection,{catalog,readBuiltin,readDefault,allowOrigin}){if(selection?.id){const builtin=catalog.find(x=>x.id===selection.id);if(builtin)return readBuiltin(builtin.path);if(/^custom-[a-f0-9-]+$/.test(selection.id)){try{const u=new URL(selection.url);if(['http:','https:'].includes(u.protocol)&&!u.username&&!u.password&&u.pathname==='/bledar-videos/media/'+selection.id&&allowOrigin(u.origin))return u.href;}catch{}}}return readDefault();}
+function allowedOrigin(origin,{trustedHostKeys={},hostAddresses=[]}={}){if(trustedHostKeys[origin])return true;return hostAddresses.some(value=>{try{return new URL(value).origin===origin;}catch{return false;}});}
+module.exports={videoSource,allowedOrigin};

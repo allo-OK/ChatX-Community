@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatX HOST Rust</title>
+  <link rel="stylesheet" href="host.css">
+  <script src="host.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">ChatX</p>
+      <h1>HOST Rust</h1>
+      <span class="version">v1.0.0 · Uji lokal</span>
+    </header>
+    <section aria-labelledby="server-title">
+      <h2 id="server-title">Server chat</h2>
+      <p id="status" role="status" data-state="starting">Menyiapkan server…</p>
+      <dl id="details" hidden>
+        <dt>Alamat koneksi</dt>
+        <dd id="address"></dd>
+        <dt>Folder data</dt>
+        <dd id="data-path"></dd>
+      </dl>
+    </section>
+    <footer>Terima koneksi dari PC ini. Tutup jendela untuk menghentikan server.</footer>
+  </main>
+</body>
+</html>

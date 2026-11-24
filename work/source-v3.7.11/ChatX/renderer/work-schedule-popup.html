@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jadwal Kerja · ChatX</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Segoe UI,Arial,sans-serif;background:transparent;color:#f4f7fa;overflow:hidden}body{display:flex;align-items:stretch;justify-content:stretch;padding:0}.card{width:100%;height:100%;border:1px solid #2a3744;border-radius:18px;background:linear-gradient(145deg,#17232d,#10161d);box-shadow:0 12px 36px #0008;display:flex;flex-direction:column;overflow:hidden}.top{display:flex;align-items:center;justify-content:space-between;padding:13px 17px;border-bottom:1px solid #2b3742}.brand{font-size:12px;color:#9fb4c7;letter-spacing:.12em;text-transform:uppercase}.close{border:0;border-radius:9px;padding:7px 11px;background:#263542;color:#fff;font-size:18px;cursor:pointer}.body{padding:24px;display:flex;flex:1;flex-direction:column;justify-content:center;gap:10px}.eyebrow{color:#5797f7;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.message{font-size:clamp(24px,4vw,36px);font-weight:750;line-height:1.15}.detail{color:#b9c5d0;font-size:16px;line-height:1.45}.video-wrap{display:none;flex:1;min-height:0;padding:0 16px 16px}.video-wrap.show{display:flex}.video-wrap video{width:100%;height:100%;object-fit:contain;background:#000;border-radius:12px}.audio-note{font-size:12px;color:#eaf4ff;border:0;border-radius:9px;padding:9px 12px;background:#23334b;cursor:pointer;align-self:flex-start}.audio-note[hidden]{display:none}.card.video-mode .body{padding:17px 20px 12px;flex:0 0 auto;gap:5px}.card.video-mode .message{font-size:22px}.card.video-mode .eyebrow{font-size:11px}.card.video-mode .video-wrap{display:flex}
+  </style>
+<link rel="stylesheet" href="motion.css">
+</head>
+<body>
+  <main class="card" id="card">
+    <header class="top"><span class="brand">ChatX · Jadwal Kerja</span><button class="close" aria-label="Tutup" title="Tutup" onclick="window.kcSchedulePopup.close()">×</button></header>
+    <section class="body"><div class="eyebrow" id="eyebrow"></div><div class="message" id="message"></div><div class="detail" id="detail"></div><button class="audio-note" id="audioNote" hidden>▶ Putar suara</button></section>
+    <section class="video-wrap" id="videoWrap"><video id="endVideo" playsinline autoplay controls></video></section>
+  </main>
+  <audio id="bell" preload="auto"></audio>
+  <audio id="endBell" preload="auto"></audio>
+  <script>
+    const params=new URLSearchParams(location.search),kind=params.get('kind');
+    const msg=document.getElementById('message'),detail=document.getElementById('detail'),eye=document.getElementById('eyebrow'),card=document.getElementById('card');
+    const bell=document.getElementById('bell');
+    if(kind==='break-start'){
+      eye.textContent='Waktunya istirahat';msg.textContent='Saatnya rehat sejenak';detail.textContent=`Istirahat sampai pukul ${params.get('back')||'13.00'}.`;
+      bell.src='../assets/work-break-bell.mp3';bell.volume=1;bell.play().catch(()=>{const b=document.getElementById('audioNote');b.hidden=false;b.onclick=()=>bell.play().then(()=>b.hidden=true).catch(()=>{});});
+    }else if(kind==='break-end'){
+      eye.textContent='Waktu istirahat selesai';msg.textContent='Silakan kembali bekerja';detail.textContent='Semangat melanjutkan pekerjaan.';
+      bell.src='../assets/work-break-bell.mp3';bell.volume=1;bell.play().catch(()=>{const b=document.getElementById('audioNote');b.hidden=false;b.onclick=()=>bell.play().then(()=>b.hidden=true).catch(()=>{});});
+    }else{
+      card.classList.add('video-mode');eye.textContent='Jam kerja selesai';msg.textContent='Jam kerja selesai waktunya pulang';detail.textContent='Terima kasih untuk kerja keras hari ini. Hati-hati di jalan.';
+      const endBell=document.getElementById('endBell');endBell.src='../assets/workday-end-bell.wav';endBell.volume=0.9;endBell.play().catch(()=>{const b=document.getElementById('audioNote');b.textContent='▶ Putar bel pulang';b.hidden=false;b.onclick=()=>endBell.play().then(()=>b.hidden=true).catch(()=>{});});
+      const video=document.getElementById('endVideo');video.src='../assets/workday-end-video.mp4';video.volume=0.7;video.play().catch(()=>{});
+      video.addEventListener('ended',()=>setTimeout(()=>window.kcSchedulePopup.close(),8000),{once:true});
+    }
+    bell.addEventListener('ended',()=>setTimeout(()=>window.kcSchedulePopup.close(),1500),{once:true});
+  </script>
+</body>
+</html>

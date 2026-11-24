@@ -1,0 +1,5 @@
+Taruh video mention MP4 Anda di folder ini dengan nama tepat:
+mention_notification.mp4
+
+Saat @mention masuk, Client akan memutarnya fullscreen.
+Jika file tidak ada, fallback BLEDAR tetap bekerja.

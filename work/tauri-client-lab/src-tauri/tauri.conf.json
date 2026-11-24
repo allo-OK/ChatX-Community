@@ -1,0 +1,12 @@
+{
+  "productName": "ChatX",
+  "version": "1.1.43",
+  "identifier": "id.chatx.community.client",
+  "build": { "frontendDist": "../ui" },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [{ "title": "ChatX", "visible": false }],
+    "security": { "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: http://127.0.0.1:*; media-src 'self' blob: http://127.0.0.1:*; connect-src 'self' data: ipc: http://ipc.localhost ws://127.0.0.1:* http://127.0.0.1:*" }
+  },
+  "bundle": { "active": false, "publisher": "Allo", "copyright": "Allo", "icon": ["icons/icon.ico"] }
+}

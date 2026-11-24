@@ -1,0 +1,21 @@
+:root {
+  color-scheme: dark;
+  font: 15px/1.5 "Segoe UI", system-ui, sans-serif;
+  color: #f4f3ef;
+  background: #141414;
+}
+body { margin: 0; }
+main { max-width: 620px; margin: auto; padding: 24px; }
+header { margin-bottom: 20px; }
+.eyebrow { margin: 0; color: #81d6aa; font-size: .78rem; font-weight: 700; letter-spacing: .13em; }
+h1 { font-size: 2rem; line-height: 1.2; margin: 3px 0; }
+.version, footer, dt { color: #c2c2bd; }
+section { padding: 15px 18px; border: 1px solid #383838; border-radius: 14px; background: #222; box-shadow: 0 8px 22px #0004; }
+h2 { font-size: 1rem; margin: 0 0 6px; }
+#status { margin: 0; font-weight: 600; }
+#status[data-state="running"] { color: #81d6aa; }
+#status[data-state="failed"] { color: #ffaf9d; }
+dl { margin: 12px 0 0; }
+dt { font-size: .84rem; }
+dd { margin: 0 0 6px; overflow-wrap: anywhere; user-select: text; }
+footer { margin-top: 14px; font-size: .85rem; }

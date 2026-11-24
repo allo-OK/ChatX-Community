@@ -1,0 +1,535 @@
+{
+  "cases": [
+    {
+      "name": "Editor Lab",
+      "device": "pc1",
+      "host": false,
+      "moderation": {},
+      "expected": {
+        "tagVideoEnabled": false,
+        "moderationRole": "EDITOR",
+        "roleTemplateId": "EDITOR",
+        "roleLabel": "Editor",
+        "customRoleName": "",
+        "permissions": {
+          "personal": true,
+          "editor": false,
+          "everyone": false,
+          "sendChat": true,
+          "sendFiles": true,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 0,
+        "mentionLevel": "notice",
+        "fullscreenMode": "video",
+        "bypassAppMute": true,
+        "bypassWindowsMute": false
+      }
+    },
+    {
+      "name": "HOST Lab",
+      "device": "host",
+      "host": true,
+      "moderation": {},
+      "expected": {
+        "tagVideoEnabled": false,
+        "moderationRole": "DEVELOPER",
+        "roleLabel": "Developer",
+        "customRoleName": "",
+        "permissions": {
+          "personal": true,
+          "editor": true,
+          "everyone": true,
+          "sendChat": true,
+          "sendFiles": true,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 0,
+        "mentionLevel": "fullscreen",
+        "fullscreenMode": "open-chat",
+        "bypassAppMute": true,
+        "bypassWindowsMute": true
+      }
+    },
+    {
+      "name": "Editor Lab",
+      "device": "pc1",
+      "host": false,
+      "moderation": {
+        "profilePolicies": {
+          "editor-lab": {
+            "tagVideoEnabled": true
+          }
+        }
+      },
+      "expected": {
+        "tagVideoEnabled": true,
+        "moderationRole": "EDITOR",
+        "roleTemplateId": "EDITOR",
+        "roleLabel": "Editor",
+        "customRoleName": "",
+        "permissions": {
+          "personal": true,
+          "editor": false,
+          "everyone": false,
+          "sendChat": true,
+          "sendFiles": true,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 0,
+        "mentionLevel": "notice",
+        "fullscreenMode": "video",
+        "bypassAppMute": true,
+        "bypassWindowsMute": false
+      }
+    },
+    {
+      "name": "Editor Lab",
+      "device": "pc1",
+      "host": false,
+      "moderation": {
+        "users": {
+          "pc1": {
+            "permissions": {
+              "everyone": true
+            },
+            "bypassWindowsMute": true
+          }
+        },
+        "profilePolicies": {
+          "editor-lab": {
+            "permissions": {
+              "personal": false
+            },
+            "tagVideoEnabled": false
+          }
+        }
+      },
+      "expected": {
+        "tagVideoEnabled": false,
+        "moderationRole": "EDITOR",
+        "roleTemplateId": "EDITOR",
+        "roleLabel": "Editor",
+        "customRoleName": "",
+        "permissions": {
+          "personal": false,
+          "editor": false,
+          "everyone": true,
+          "sendChat": true,
+          "sendFiles": true,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 0,
+        "mentionLevel": "notice",
+        "fullscreenMode": "video",
+        "bypassAppMute": true,
+        "bypassWindowsMute": true
+      }
+    },
+    {
+      "name": "Admin Lab",
+      "device": "pc1",
+      "host": false,
+      "moderation": {
+        "profilePolicies": {
+          "admin-lab": {
+            "moderationRole": "ADMIN"
+          }
+        }
+      },
+      "expected": {
+        "tagVideoEnabled": false,
+        "moderationRole": "ADMIN",
+        "roleTemplateId": "ADMIN",
+        "roleLabel": "Admin",
+        "customRoleName": "",
+        "permissions": {
+          "personal": true,
+          "editor": true,
+          "everyone": true,
+          "sendChat": true,
+          "sendFiles": true,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 0,
+        "mentionLevel": "medium",
+        "fullscreenMode": "video",
+        "bypassAppMute": true,
+        "bypassWindowsMute": true
+      }
+    },
+    {
+      "name": "Admin Lab",
+      "device": "pc1",
+      "host": false,
+      "moderation": {
+        "profilePolicies": {
+          "admin-lab": {
+            "moderationRole": "ADMIN"
+          }
+        },
+        "roles": {
+          "ADMIN": {
+            "permissions": {
+              "personal": true
+            }
+          }
+        }
+      },
+      "expected": {
+        "tagVideoEnabled": false,
+        "moderationRole": "ADMIN",
+        "roleTemplateId": "ADMIN",
+        "roleLabel": "Admin",
+        "customRoleName": "",
+        "permissions": {
+          "personal": true,
+          "editor": false,
+          "everyone": false,
+          "sendChat": true,
+          "sendFiles": true,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 0,
+        "mentionLevel": "medium",
+        "fullscreenMode": "video",
+        "bypassAppMute": true,
+        "bypassWindowsMute": true
+      }
+    },
+    {
+      "name": "QC Lab",
+      "device": "pc1",
+      "host": false,
+      "moderation": {
+        "roles": {
+          "role-qc": {
+            "name": "QC Senior",
+            "permissions": {
+              "editor": true,
+              "sendFiles": false
+            },
+            "mentionLevel": "fullscreen",
+            "fullscreenMode": "video"
+          }
+        },
+        "profilePolicies": {
+          "qc-lab": {
+            "moderationRole": "CUSTOM",
+            "roleTemplateId": "role-qc"
+          }
+        }
+      },
+      "expected": {
+        "tagVideoEnabled": true,
+        "moderationRole": "CUSTOM",
+        "roleTemplateId": "role-qc",
+        "roleLabel": "QC Senior",
+        "customRoleName": "QC Senior",
+        "permissions": {
+          "personal": true,
+          "editor": true,
+          "everyone": false,
+          "sendChat": true,
+          "sendFiles": false,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 0,
+        "mentionLevel": "fullscreen",
+        "fullscreenMode": "video",
+        "bypassAppMute": true,
+        "bypassWindowsMute": false
+      }
+    },
+    {
+      "name": "Editor Lab",
+      "device": "pc1",
+      "host": false,
+      "moderation": {
+        "profilePolicies": {
+          "editor-lab": {
+            "mentionLevel": "invalid",
+            "fullscreenMode": "invalid",
+            "mutedUntil": 123456
+          }
+        }
+      },
+      "expected": {
+        "tagVideoEnabled": false,
+        "moderationRole": "EDITOR",
+        "roleTemplateId": "EDITOR",
+        "roleLabel": "Editor",
+        "customRoleName": "",
+        "permissions": {
+          "personal": true,
+          "editor": false,
+          "everyone": false,
+          "sendChat": true,
+          "sendFiles": true,
+          "downloadFiles": true,
+          "designAI": true,
+          "tagPrintTest": true,
+          "tagDesignRevision": true,
+          "tagDesignRequest": true,
+          "banned": false
+        },
+        "mutedUntil": 123456,
+        "mentionLevel": "notice",
+        "fullscreenMode": "video",
+        "bypassAppMute": true,
+        "bypassWindowsMute": false
+      }
+    }
+  ],
+  "sequences": [
+    {
+      "policy": {},
+      "events": [
+        {
+          "at": 0,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": null
+        },
+        {
+          "at": 1,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": null
+        },
+        {
+          "at": 2,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": {
+            "ok": false,
+            "error": "Tag terlalu sering dikirim. Tag dinonaktifkan sementara selama 30 detik.",
+            "retryAfterMs": 30000
+          }
+        },
+        {
+          "at": 3,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": {
+            "ok": false,
+            "error": "Perlindungan spam tag aktif. Coba lagi dalam 30 detik.",
+            "retryAfterMs": 29999
+          }
+        },
+        {
+          "at": 30002,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": null
+        },
+        {
+          "at": 60001,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": null
+        }
+      ]
+    },
+    {
+      "policy": {},
+      "events": [
+        {
+          "at": 0,
+          "tag": false,
+          "mass": true,
+          "names": [],
+          "expected": null
+        },
+        {
+          "at": 19999,
+          "tag": false,
+          "mass": true,
+          "names": [],
+          "expected": {
+            "ok": false,
+            "error": "Tag terlalu sering dikirim. Tag dinonaktifkan sementara selama 30 detik.",
+            "retryAfterMs": 30000
+          }
+        },
+        {
+          "at": 20001,
+          "tag": false,
+          "mass": true,
+          "names": [],
+          "expected": {
+            "ok": false,
+            "error": "Perlindungan spam tag aktif. Coba lagi dalam 30 detik.",
+            "retryAfterMs": 29998
+          }
+        },
+        {
+          "at": 50000,
+          "tag": false,
+          "mass": true,
+          "names": [],
+          "expected": null
+        },
+        {
+          "at": 60001,
+          "tag": false,
+          "mass": true,
+          "names": [],
+          "expected": {
+            "ok": false,
+            "error": "Tag terlalu sering dikirim. Tag dinonaktifkan sementara selama 30 detik.",
+            "retryAfterMs": 30000
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "maxPer10Seconds": 10,
+        "maxPerMinute": 2,
+        "blockSeconds": 5
+      },
+      "events": [
+        {
+          "at": 0,
+          "tag": false,
+          "mass": false,
+          "names": [
+            "Target"
+          ],
+          "expected": null
+        },
+        {
+          "at": 1,
+          "tag": false,
+          "mass": false,
+          "names": [
+            "Target"
+          ],
+          "expected": null
+        },
+        {
+          "at": 2,
+          "tag": false,
+          "mass": false,
+          "names": [
+            "Target"
+          ],
+          "expected": {
+            "ok": false,
+            "error": "Tag terlalu sering dikirim. Tag dinonaktifkan sementara selama 5 detik.",
+            "retryAfterMs": 5000
+          }
+        },
+        {
+          "at": 5002,
+          "tag": false,
+          "mass": false,
+          "names": [
+            "Target"
+          ],
+          "expected": {
+            "ok": false,
+            "error": "Tag terlalu sering dikirim. Tag dinonaktifkan sementara selama 5 detik.",
+            "retryAfterMs": 5000
+          }
+        },
+        {
+          "at": 60002,
+          "tag": false,
+          "mass": false,
+          "names": [
+            "Target"
+          ],
+          "expected": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "maxPer10Seconds": null,
+        "maxPerMinute": "3",
+        "blockSeconds": "5"
+      },
+      "events": [
+        {
+          "at": 0,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": null
+        },
+        {
+          "at": 1,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": {
+            "ok": false,
+            "error": "Tag terlalu sering dikirim. Tag dinonaktifkan sementara selama 5 detik.",
+            "retryAfterMs": 5000
+          }
+        },
+        {
+          "at": 5001,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": {
+            "ok": false,
+            "error": "Tag terlalu sering dikirim. Tag dinonaktifkan sementara selama 5 detik.",
+            "retryAfterMs": 5000
+          }
+        },
+        {
+          "at": 60001,
+          "tag": true,
+          "mass": false,
+          "names": [],
+          "expected": null
+        }
+      ]
+    }
+  ]
+}

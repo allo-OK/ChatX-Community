@@ -1,0 +1,5 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');const retryable=new Set(['EPERM','EACCES','EBUSY']);
+function writeJSON(file,value){const temp=file+'.'+crypto.randomUUID()+'.tmp';let keep=false;try{fs.writeFileSync(temp,JSON.stringify(value,null,2));for(let attempt=0;;attempt++){try{fs.renameSync(temp,file);return;}catch(e){if(!retryable.has(e.code)||attempt>=5)throw e;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,20*(attempt+1));}}}catch(e){keep=retryable.has(e.code);throw e;}finally{try{if(!keep)fs.unlinkSync(temp);}catch{}}}
+async function writeJSONAsync(file,value){const temp=file+'.'+crypto.randomUUID()+'.tmp';let keep=false;try{await fs.promises.writeFile(temp,JSON.stringify(value));for(let attempt=0;;attempt++){try{await fs.promises.rename(temp,file);return;}catch(e){if(!retryable.has(e.code)||attempt>=5)throw e;await new Promise(resolve=>setTimeout(resolve,20*(attempt+1)));}}}catch(e){keep=retryable.has(e.code);throw e;}finally{try{if(!keep)await fs.promises.unlink(temp);}catch{}}}
+module.exports={writeJSON,writeJSONAsync};
